@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "169198217513",
+    "project_id": "mynotes-flutter-agonist",
+    "storage_bucket": "mynotes-flutter-agonist.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:169198217513:android:e7a148bb8d696b82f6af38",
+        "android_client_info": {
+          "package_name": "com.jirayu.flutter_course"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "169198217513-h8l64tp28cc6dmj2u3jh3ac2ae40ara9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBS_Fokjoki9yaWdcDW8u_C1_c6f8uSgoA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "169198217513-h8l64tp28cc6dmj2u3jh3ac2ae40ara9.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "169198217513-l07tq6s8fcier33mle3idj5jlfbk6gtg.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.jirayu.flutterCourse"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

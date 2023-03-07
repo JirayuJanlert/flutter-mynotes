@@ -1,0 +1,375 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_course/Utilities.dart';
+import 'package:flutter_course/CustomIcon.dart';
+import 'package:flutter_course/views/RegisterView.dart';
+
+class LoginPage extends StatefulWidget {
+  const LoginPage({Key? key}) : super(key: key);
+
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  late final TextEditingController _username;
+  late final TextEditingController _password;
+  bool _isSelected = false;
+
+  void _radio() {
+    setState(() {
+      _isSelected = !_isSelected;
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    _username = TextEditingController();
+    _password = TextEditingController();
+    super.initState();
+  }
+
+  Widget radioButton(bool isSelected) => Container(
+        width: 16.0,
+        height: 16.0,
+        padding: const EdgeInsets.all(2.0),
+        decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            border: Border.all(width: 2.0, color: Colors.black)),
+        child: isSelected
+            ? Container(
+                width: double.infinity,
+                height: double.infinity,
+                decoration: const BoxDecoration(
+                    shape: BoxShape.circle, color: Colors.black),
+              )
+            : Container(),
+      );
+
+  Widget horizontalLine() => Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+        child: Container(
+          width: 100,
+          height: 1.0,
+          color: Colors.black26.withOpacity(.2),
+        ),
+      );
+
+  @override
+  Widget build(BuildContext context) {
+    ThemeData theme = Theme.of(context);
+    return Scaffold(
+      body: SafeArea(
+        child: Container(
+          color: theme.scaffoldBackgroundColor,
+          child: Stack(fit: StackFit.expand, children: <Widget>[
+            Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                    padding: const EdgeInsets.only(top: 10),
+                    alignment: Alignment.topRight,
+                    child: Image.asset('assets/image_01.png')),
+                Expanded(child: Container()),
+                Image.asset('assets/image_02.png')
+              ],
+            ),
+            SingleChildScrollView(
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      children: [
+                        Image.asset('assets/logo.png'),
+                        Text('LOGO',
+                            style: TextStyle(
+                                fontFamily: "Poppins-Bold",
+                                fontSize: 32,
+                                color: theme.textTheme.headlineLarge?.color,
+                                fontWeight: FontWeight.bold))
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 80),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 20.0, right: 20),
+                    child: Card(
+                      borderOnForeground: true,
+                      color: theme.cardColor,
+                      shadowColor: theme.shadowColor,
+                      elevation: 20,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20)),
+                      child: Container(
+                          padding: const EdgeInsets.all(20),
+                          width: double.infinity,
+                          height: 360,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Text(
+                                'Login',
+                                style: theme.textTheme.headlineMedium,
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Text(
+                                'Email',
+                                style: theme.textTheme.labelLarge,
+                              ),
+                              TextField(
+                                  controller: _username,
+                                  decoration: InputDecoration(
+                                    hintText: "Enter your email",
+                                    labelText: 'Email',
+                                    labelStyle: theme.textTheme.labelLarge,
+                                    prefixIcon: const Icon(Icons.people),
+                                    hintStyle: TextStyle(
+                                        fontSize: 16,
+                                        color:
+                                            theme.hintColor), //hint text style
+                                  )),
+                              const SizedBox(
+                                height: 20,
+                              ),
+                              Text(
+                                'Password',
+                                style: theme.textTheme.labelLarge,
+                              ),
+                              TextField(
+                                  controller: _password,
+                                  decoration: InputDecoration(
+                                    hintText: "Enter your email",
+                                    labelStyle: theme.textTheme.labelLarge,
+                                    prefixIcon: const Icon(Icons.password),
+                                    hintStyle: TextStyle(
+                                        fontSize: 16,
+                                        color:
+                                            theme.hintColor), //hint text style
+                                  )),
+                              const SizedBox(
+                                height: 20,
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: <Widget>[
+                                  Text(
+                                    "Forgot Password?",
+                                    style: TextStyle(
+                                        color: theme.accentColor, fontSize: 20),
+                                  )
+                                ],
+                              )
+                            ],
+                          )),
+                    ),
+                  ),
+                  const SizedBox(height: 30),
+                  Row(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const SizedBox(
+                            width: 20,
+                          ),
+                          GestureDetector(
+                              onTap: _radio, child: radioButton(_isSelected)),
+                          const SizedBox(
+                            width: 20,
+                          ),
+                          Text(
+                            'Remember me',
+                            style: theme.textTheme.bodyLarge,
+                          )
+                        ],
+                      ),
+                      Container(
+                        width: 150,
+                        height: 80,
+                        decoration: BoxDecoration(
+                            gradient: LinearGradient(colors: [
+                              CustomColor.kPrimaryColor,
+                              CustomColor.kSecondaryColor
+                            ]),
+                            borderRadius: BorderRadius.circular(6.0),
+                            boxShadow: [
+                              BoxShadow(
+                                  color:
+                                      const Color(0xFF6078ea).withOpacity(.3),
+                                  offset: const Offset(0.0, 8.0),
+                                  blurRadius: 8.0)
+                            ]),
+                        child: Material(
+                            color: Colors.transparent,
+                            child: InkWell(
+                              onTap: () async {
+                                final email = _username.text;
+                                final password = _password.text;
+                                try {
+                                  final userCredential = await FirebaseAuth
+                                      .instance
+                                      .signInWithEmailAndPassword(
+                                          email: email, password: password);
+                                } on FirebaseAuthException catch (exception) {
+                                  if (exception.code == 'user-not-found') {
+                                    showAlertDialog(
+                                        'User is not found',
+                                        'Error',
+                                        context,
+                                        () => Navigator.pop(context));
+                                  } else if (exception.code ==
+                                      'wrong-password') {
+                                    showAlertDialog(
+                                        'Password is wrong',
+                                        'Error',
+                                        context,
+                                        () => Navigator.pop(context));
+                                  }
+                                }
+                              },
+                              child: const Center(
+                                child: Text("SIGNIN",
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontFamily: "Poppins-Bold",
+                                        fontSize: 18,
+                                        letterSpacing: 1.0)),
+                              ),
+                            )),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      horizontalLine(),
+                      Text(
+                        'Social Login',
+                        style: theme.textTheme.titleLarge,
+                      ),
+                      horizontalLine(),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      SocialIcon(
+                        colors: const [
+                          Color(0xFF102397),
+                          Color(0xFF187adf),
+                          Color(0xFF00eaf8),
+                        ],
+                        iconData: CustomIcons.facebook,
+                        onPressed: () {},
+                      ),
+                      SocialIcon(
+                        colors: const [
+                          Color(0xFFff4f38),
+                          Color(0xFFff355d),
+                        ],
+                        iconData: CustomIcons.googlePlus,
+                        onPressed: () {},
+                      ),
+                      SocialIcon(
+                        colors: const [
+                          CustomColor.kPrimaryColor,
+                          Color(0xFF6078ea),
+                        ],
+                        iconData: CustomIcons.twitter,
+                        onPressed: () {},
+                      ),
+                      SocialIcon(
+                        colors: const [
+                          Color(0xFF00c6fb),
+                          Color(0xFF005bea),
+                        ],
+                        iconData: CustomIcons.linkedin,
+                        onPressed: () {},
+                      )
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      const Text(
+                        "New User? ",
+                        style: TextStyle(fontFamily: "Poppins-Medium"),
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      InkWell(
+                        onTap: () {
+                          final page = const RegisterView();
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (context) => page));
+                        },
+                        child: const Text("SignUp",
+                            style: TextStyle(
+                                color: Color(0xFF5d74e3),
+                                fontFamily: "Poppins-Bold")),
+                      )
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                ],
+              ),
+            )
+          ]),
+        ),
+      ),
+    );
+  }
+}
+
+class SocialIcon extends StatelessWidget {
+  final List<Color> colors;
+  final IconData iconData;
+  final Function onPressed;
+
+  const SocialIcon(
+      {super.key,
+      required this.colors,
+      required this.iconData,
+      required this.onPressed});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 14.0),
+      child: Container(
+        width: 45.0,
+        height: 45.0,
+        decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            gradient: LinearGradient(colors: colors, tileMode: TileMode.clamp)),
+        child: RawMaterialButton(
+          shape: const CircleBorder(),
+          onPressed: () => onPressed,
+          child: Icon(iconData, color: Colors.white),
+        ),
+      ),
+    );
+  }
+}

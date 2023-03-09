@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_course/utilities.dart';
 import 'package:flutter_course/custom_icon.dart';
 import 'package:flutter_course/views/register_view.dart';
-import 'package:flutter_course/widgets/HorizontalLine.dart';
-import 'package:flutter_course/widgets/RadioButton.dart';
-import 'package:flutter_course/widgets/SocialIcon.dart';
+import 'package:flutter_course/widgets/horrizontal_line.dart';
+import 'package:flutter_course/widgets/radio_button.dart';
+import 'package:flutter_course/widgets/social_icon.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class LoginView extends StatefulWidget {

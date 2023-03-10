@@ -190,28 +190,33 @@ class _RegisterViewState extends State<RegisterView> {
                                     .instance
                                     .createUserWithEmailAndPassword(
                                         email: email, password: password);
+                                final user = FirebaseAuth.instance.currentUser;
+                                await user?.sendEmailVerification();
+                                // use pushNamed because it allows user to go back to change the misinformation in the register view.
+                                Navigator.of(context)
+                                    .pushNamed(verifyEmailRoute);
                               } on FirebaseAuthException catch (e) {
                                 if (e.code == 'weak-password') {
-                                  showAlertDialogOk(
-                                    'weak password',
+                                  await showAlertDialogOk(
+                                    'Weak password',
                                     'Error',
                                     context,
                                   );
                                 } else if (e.code == 'email-already-in-use') {
-                                  showAlertDialogOk(
-                                    'email is already use',
+                                  await showAlertDialogOk(
+                                    'Email is already use',
                                     'Error',
                                     context,
                                   );
                                 } else if (e.code == 'invalid-email') {
-                                  showAlertDialogOk(
+                                  await showAlertDialogOk(
                                     'Invalid email entered',
                                     'Error',
                                     context,
                                   );
                                 }
                               } catch (e) {
-                                showAlertDialogOk(
+                                await showAlertDialogOk(
                                   e.toString(),
                                   'Error',
                                   context,

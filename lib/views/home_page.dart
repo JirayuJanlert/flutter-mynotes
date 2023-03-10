@@ -28,7 +28,7 @@ class HomePage extends StatelessWidget {
                 if (user.emailVerified) {
                   return SafeArea(child: const NotesView());
                 } else {
-                  return const VerifyEmailView();
+                  return VerifyEmailView();
                 }
               } else {
                 return const WelcomeScreen();

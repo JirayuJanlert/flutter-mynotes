@@ -156,7 +156,7 @@ class _RegisterViewState extends State<RegisterView> {
                                 errorBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(20),
                                   borderSide: BorderSide(
-                                      width: 3, color: theme.errorColor),
+                                      width: 3, color: theme.colorScheme.error),
                                 ),
                                 enabledBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(20),
@@ -193,20 +193,35 @@ class _RegisterViewState extends State<RegisterView> {
                               } on FirebaseAuthException catch (e) {
                                 if (e.code == 'weak-password') {
                                   showAlertDialogOk(
-                                      'weak password', 'Error', context);
+                                    'weak password',
+                                    'Error',
+                                    context,
+                                  );
                                 } else if (e.code == 'email-already-in-use') {
                                   showAlertDialogOk(
-                                      'email is already use', 'Error', context);
+                                    'email is already use',
+                                    'Error',
+                                    context,
+                                  );
                                 } else if (e.code == 'invalid-email') {
-                                  showAlertDialogOk('Invalid email entered',
-                                      'Error', context);
+                                  showAlertDialogOk(
+                                    'Invalid email entered',
+                                    'Error',
+                                    context,
+                                  );
                                 }
+                              } catch (e) {
+                                showAlertDialogOk(
+                                  e.toString(),
+                                  'Error',
+                                  context,
+                                );
                               }
                             }
                           },
                           child: Ink(
                               decoration: BoxDecoration(
-                                  gradient: LinearGradient(colors: [
+                                  gradient: const LinearGradient(colors: [
                                     CustomColor.kPrimaryColor,
                                     CustomColor.kSecondaryColor
                                   ]),

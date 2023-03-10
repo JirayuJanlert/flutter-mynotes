@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 Future<void> showAlertDialogOk(
     String message, String title, BuildContext context) {
   Widget okButton = TextButton(
-    child: const Text("OK"),
     onPressed: () => Navigator.pop(context),
+    child: const Text("OK"),
   );
 
   AlertDialog alert = AlertDialog(

@@ -8,7 +8,6 @@ import 'package:flutter_course/widgets/horrizontal_line.dart';
 import 'package:flutter_course/widgets/radio_button.dart';
 import 'package:flutter_course/widgets/social_icon.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'dart:developer' as devtools show log;
 
 class LoginView extends StatefulWidget {
   const LoginView({Key? key}) : super(key: key);
@@ -204,21 +203,34 @@ class _LoginViewState extends State<LoginView> {
                                     );
                                   }
                                 });
+                                // Firebase exception catch
                               } on FirebaseAuthException catch (exception) {
-                                devtools.log(exception.toString());
                                 if (exception.code == 'user-not-found') {
-                                  showAlertDialogOk(
-                                    exception.toString(),
+                                  await showAlertDialogOk(
+                                    'User not found',
                                     'Error',
                                     context,
                                   );
                                 } else if (exception.code == 'wrong-password') {
-                                  showAlertDialogOk(
-                                    exception.toString(),
+                                  await showAlertDialogOk(
+                                    'Wrong credentials',
+                                    'Error',
+                                    context,
+                                  );
+                                } else {
+                                  await showAlertDialogOk(
+                                    'Error: ${exception.code}',
                                     'Error',
                                     context,
                                   );
                                 }
+                                // Generic exception catch
+                              } catch (exception) {
+                                await showAlertDialogOk(
+                                  exception.toString(),
+                                  'Error',
+                                  context,
+                                );
                               }
                             },
                             child: const Center(

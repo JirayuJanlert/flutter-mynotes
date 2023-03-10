@@ -1,7 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_course/constant/routes.dart';
 import 'package:flutter_course/utilities.dart';
-import 'package:flutter_course/custom_icon.dart';
+import 'package:flutter_course/constant/custom.dart';
 import 'package:flutter_course/views/register_view.dart';
 import 'package:flutter_course/widgets/horrizontal_line.dart';
 import 'package:flutter_course/widgets/radio_button.dart';
@@ -198,7 +199,7 @@ class _LoginViewState extends State<LoginView> {
                                   if (value.user != null) {
                                     Navigator.of(context)
                                         .pushNamedAndRemoveUntil(
-                                      '/main',
+                                      notesRoute,
                                       (route) => false,
                                     );
                                   }
@@ -306,7 +307,7 @@ class _LoginViewState extends State<LoginView> {
                       onTap: () {
                         final page = const RegisterView();
                         Navigator.pushNamedAndRemoveUntil(
-                            context, '/register', (route) => false);
+                            context, registerRoute, (route) => false);
                       },
                       child: const Text("SignUp",
                           style: TextStyle(

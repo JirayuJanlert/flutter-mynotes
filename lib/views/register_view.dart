@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_course/custom_icon.dart';
+import 'package:flutter_course/constant/custom.dart';
+import 'package:flutter_course/constant/routes.dart';
 import 'package:flutter_course/utilities.dart';
 import 'package:flutter_course/views/login_view.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -243,7 +244,7 @@ class _RegisterViewState extends State<RegisterView> {
                               onTap: () {
                                 final page = const LoginView();
                                 Navigator.pushNamedAndRemoveUntil(
-                                    context, '/login', (route) => false);
+                                    context, loginRoute, (route) => false);
                                 // Navigator.pushReplacement(
                                 //     context,
                                 //     MaterialPageRoute(

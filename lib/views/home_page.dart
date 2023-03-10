@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_course/views/note_view.dart';
 import 'package:flutter_course/views/veiry_email_view.dart';
 import 'package:flutter_course/views/login_view.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -22,7 +23,6 @@ class HomePage extends StatelessWidget {
           switch (snapshot.connectionState) {
             case ConnectionState.done:
               final user = FirebaseAuth.instance.currentUser;
-
               // if (emailVerified) {
               //   return const SafeArea(child: LoginPage());
               // } else {
@@ -35,19 +35,18 @@ class HomePage extends StatelessWidget {
               //   return const VerifyEmailView();
               if (user != null) {
                 if (user.emailVerified) {
-                  print('Email is already verified');
+                  return SafeArea(child: const NotesView());
                 } else {
                   return const VerifyEmailView();
                 }
               } else {
                 return const LoginView();
               }
-              return Text('Done');
             default:
               return Center(
                   child: LoadingAnimationWidget.twistingDots(
                 leftDotColor: const Color(0xFF1A1A3F),
-                rightDotColor: Theme.of(context).accentColor,
+                rightDotColor: Theme.of(context).colorScheme.secondary,
                 size: 200,
               ));
           }

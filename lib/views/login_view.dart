@@ -118,6 +118,7 @@ class _LoginViewState extends State<LoginView> {
                               style: theme.textTheme.labelLarge,
                             ),
                             TextField(
+                                obscureText: true,
                                 controller: _password,
                                 decoration: InputDecoration(
                                   hintText: "Enter your email",
@@ -188,21 +189,27 @@ class _LoginViewState extends State<LoginView> {
                               final email = _username.text;
                               final password = _password.text;
                               try {
-                                final userCredential =
-                                    await FirebaseAuth.instance
-                                        .signInWithEmailAndPassword(
+                                final userCredential = await FirebaseAuth
+                                    .instance
+                                    .signInWithEmailAndPassword(
                                   email: email,
                                   password: password,
-                                )
-                                        .then((value) {
-                                  if (value.user != null) {
-                                    Navigator.of(context)
-                                        .pushNamedAndRemoveUntil(
-                                      notesRoute,
-                                      (route) => false,
-                                    );
-                                  }
-                                });
+                                );
+                                final user = FirebaseAuth.instance.currentUser;
+                                if (user?.emailVerified ?? false) {
+                                  //user email is verified
+                                  Navigator.of(context).pushNamedAndRemoveUntil(
+                                    notesRoute,
+                                    (route) => false,
+                                  );
+                                } else {
+                                  // user's email is not verified
+                                  Navigator.of(context).pushNamedAndRemoveUntil(
+                                    verifyEmailRoute,
+                                    (route) => false,
+                                  );
+                                }
+
                                 // Firebase exception catch
                               } on FirebaseAuthException catch (exception) {
                                 if (exception.code == 'user-not-found') {

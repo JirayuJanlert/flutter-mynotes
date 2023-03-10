@@ -191,20 +191,14 @@ class _RegisterViewState extends State<RegisterView> {
                                         email: email, password: password);
                               } on FirebaseAuthException catch (e) {
                                 if (e.code == 'weak-password') {
-                                  showAlertDialog('weak password', 'Error',
-                                      context, () => Navigator.pop(context));
+                                  showAlertDialogOk(
+                                      'weak password', 'Error', context);
                                 } else if (e.code == 'email-already-in-use') {
-                                  showAlertDialog(
-                                      'email is already use',
-                                      'Error',
-                                      context,
-                                      () => Navigator.pop(context));
+                                  showAlertDialogOk(
+                                      'email is already use', 'Error', context);
                                 } else if (e.code == 'invalid-email') {
-                                  showAlertDialog(
-                                      'Invalid email entered',
-                                      'Error',
-                                      context,
-                                      () => Navigator.pop(context));
+                                  showAlertDialogOk('Invalid email entered',
+                                      'Error', context);
                                 }
                               }
                             }

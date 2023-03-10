@@ -1,7 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_course/views/home_page.dart';
-import 'package:flutter_course/views/note_view.dart';
+import 'package:flutter_course/views/notes_view.dart';
 import 'package:flutter_course/views/register_view.dart';
 import 'package:flutter_course/views/veiry_email_view.dart';
 import 'package:flutter_course/views/login_view.dart';

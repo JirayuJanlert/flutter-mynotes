@@ -7,6 +7,7 @@ import 'package:flutter_course/widgets/horrizontal_line.dart';
 import 'package:flutter_course/widgets/radio_button.dart';
 import 'package:flutter_course/widgets/social_icon.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'dart:developer' as devtools show log;
 
 class LoginView extends StatefulWidget {
   const LoginView({Key? key}) : super(key: key);
@@ -187,34 +188,46 @@ class _LoginViewState extends State<LoginView> {
                               final email = _username.text;
                               final password = _password.text;
                               try {
-                                final userCredential = await FirebaseAuth
-                                    .instance
-                                    .signInWithEmailAndPassword(
-                                        email: email, password: password)
-                                    .then((value) {
+                                final userCredential =
+                                    await FirebaseAuth.instance
+                                        .signInWithEmailAndPassword(
+                                  email: email,
+                                  password: password,
+                                )
+                                        .then((value) {
                                   if (value.user != null) {
                                     Navigator.of(context)
                                         .pushNamedAndRemoveUntil(
-                                            '/main', (route) => false);
+                                      '/main',
+                                      (route) => false,
+                                    );
                                   }
                                 });
                               } on FirebaseAuthException catch (exception) {
+                                devtools.log(exception.toString());
                                 if (exception.code == 'user-not-found') {
-                                  showAlertDialog('User is not found', 'Error',
-                                      context, () => Navigator.pop(context));
+                                  showAlertDialogOk(
+                                    exception.toString(),
+                                    'Error',
+                                    context,
+                                  );
                                 } else if (exception.code == 'wrong-password') {
-                                  showAlertDialog('Password is wrong', 'Error',
-                                      context, () => Navigator.pop(context));
+                                  showAlertDialogOk(
+                                    exception.toString(),
+                                    'Error',
+                                    context,
+                                  );
                                 }
                               }
                             },
                             child: const Center(
                               child: Text("SIGNIN",
                                   style: TextStyle(
-                                      color: Colors.white,
-                                      fontFamily: "Poppins-Bold",
-                                      fontSize: 18,
-                                      letterSpacing: 1.0)),
+                                    color: Colors.white,
+                                    fontFamily: "Poppins-Bold",
+                                    fontSize: 18,
+                                    letterSpacing: 1.0,
+                                  )),
                             ),
                           )),
                     ),
@@ -292,19 +305,14 @@ class _LoginViewState extends State<LoginView> {
                     InkWell(
                       onTap: () {
                         final page = const RegisterView();
-
                         Navigator.pushNamedAndRemoveUntil(
                             context, '/register', (route) => false);
-
-                        // Navigator.pushAndRemoveUntil(
-                        //     context,
-                        //     MaterialPageRoute(builder: (context) => page),
-                        //     (route) => false);
                       },
                       child: const Text("SignUp",
                           style: TextStyle(
-                              color: Color(0xFF5d74e3),
-                              fontFamily: "Poppins-Bold")),
+                            color: Color(0xFF5d74e3),
+                            fontFamily: "Poppins-Bold",
+                          )),
                     )
                   ],
                 ),

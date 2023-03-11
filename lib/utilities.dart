@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_course/constant/custom.dart';
 
 Future<void> showAlertDialogOk(
     String message, String title, BuildContext context) {
@@ -46,4 +47,17 @@ Future<bool> showDialogActions(BuildContext context, String message,
       );
     },
   ).then((value) => value ?? false);
+}
+
+void showSnackBar(BuildContext context, String message) {
+  final SnackBar snackBar = SnackBar(
+    content: Text(
+      message,
+      style: const TextStyle(
+        fontFamily: CustomTextStyle.kDefaultMediumFont,
+      ),
+    ),
+    backgroundColor: CustomColor.kSecondaryColor,
+  );
+  ScaffoldMessenger.of(context).showSnackBar(snackBar);
 }

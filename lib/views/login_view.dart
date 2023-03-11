@@ -214,23 +214,13 @@ class _LoginViewState extends State<LoginView> {
                                 }
                                 // Firebase exception catch
                               } on UserNotFoundAuthException {
-                                await showAlertDialogOk(
-                                  'User not found',
-                                  'Error',
-                                  context,
-                                );
+                                showSnackBar(context, 'User not found');
                               } on WrongPasswordAuthException {
-                                await showAlertDialogOk(
-                                  'Wrong credentials',
-                                  'Error',
-                                  context,
-                                );
+                                showSnackBar(context, 'Wrong credentials');
                               } on GenericAuthException {
-                                await showAlertDialogOk(
-                                  'Error: Authentication error',
-                                  'Error',
-                                  context,
-                                );
+                                showSnackBar(context, 'Authentication Error');
+                              } catch (e) {
+                                showSnackBar(context, e.toString());
                               }
                             },
                             child: const Center(

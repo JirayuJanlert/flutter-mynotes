@@ -196,29 +196,13 @@ class _RegisterViewState extends State<RegisterView> {
                                       .pushNamed(verifyEmailRoute);
                                 }
                               } on WeakPasswordAuthException {
-                                await showAlertDialogOk(
-                                  'Weak password',
-                                  'Error',
-                                  context,
-                                );
+                                showSnackBar(context, 'Weak password');
                               } on EmailAlreadyInUseAuthException {
-                                await showAlertDialogOk(
-                                  'Email is already use',
-                                  'Error',
-                                  context,
-                                );
+                                showSnackBar(context, 'Email is already used');
                               } on InvalidEmailAuthException {
-                                await showAlertDialogOk(
-                                  'Invalid email entered',
-                                  'Error',
-                                  context,
-                                );
+                                showSnackBar(context, 'Invalid Email');
                               } on GenericAuthException {
-                                await showAlertDialogOk(
-                                  'Authentication error',
-                                  'Error',
-                                  context,
-                                );
+                                showSnackBar(context, 'Authentication Error');
                               }
                             }
                           },

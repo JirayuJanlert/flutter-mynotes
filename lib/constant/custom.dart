@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 
 class CustomIcons {
@@ -13,4 +11,9 @@ class CustomIcons {
 class CustomColor {
   static const kPrimaryColor = Color(0xFF17ead9);
   static const kSecondaryColor = Color(0xFF6078ea);
+}
+
+class CustomTextStyle {
+  static const kDefaultMediumFont = "Poppins-Medium";
+  static const kDefaultBoldFont = "Poppins-Bold";
 }

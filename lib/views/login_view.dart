@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_course/constant/routes.dart';
 import 'package:flutter_course/utilities.dart';
 import 'package:flutter_course/constant/custom.dart';
-import 'package:flutter_course/views/register_view.dart';
 import 'package:flutter_course/widgets/horrizontal_line.dart';
 import 'package:flutter_course/widgets/radio_button.dart';
 import 'package:flutter_course/widgets/social_icon.dart';
@@ -171,7 +170,7 @@ class _LoginViewState extends State<LoginView> {
                       width: 150,
                       height: 80,
                       decoration: BoxDecoration(
-                          gradient: LinearGradient(colors: [
+                          gradient: const LinearGradient(colors: [
                             CustomColor.kPrimaryColor,
                             CustomColor.kSecondaryColor
                           ]),
@@ -189,8 +188,7 @@ class _LoginViewState extends State<LoginView> {
                               final email = _username.text;
                               final password = _password.text;
                               try {
-                                final userCredential = await FirebaseAuth
-                                    .instance
+                                await FirebaseAuth.instance
                                     .signInWithEmailAndPassword(
                                   email: email,
                                   password: password,
@@ -203,13 +201,12 @@ class _LoginViewState extends State<LoginView> {
                                     (route) => false,
                                   );
                                 } else {
-                                  // user's email is not verified
+                                  // user's email is NOT verified
                                   Navigator.of(context).pushNamedAndRemoveUntil(
                                     verifyEmailRoute,
                                     (route) => false,
                                   );
                                 }
-
                                 // Firebase exception catch
                               } on FirebaseAuthException catch (exception) {
                                 if (exception.code == 'user-not-found') {
@@ -324,7 +321,6 @@ class _LoginViewState extends State<LoginView> {
                     ),
                     InkWell(
                       onTap: () {
-                        final page = const RegisterView();
                         Navigator.pushNamedAndRemoveUntil(
                             context, registerRoute, (route) => false);
                       },

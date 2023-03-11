@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_course/constant/custom.dart';
 import 'package:flutter_course/constant/routes.dart';
-import 'package:flutter_course/views/login_view.dart';
-import 'package:flutter_course/views/register_view.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -13,7 +11,7 @@ class WelcomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     ThemeData theme = Theme.of(context);
     return Scaffold(
-      body: Container(
+      body: SizedBox(
         width: ScreenUtil().screenWidth,
         height: ScreenUtil().screenHeight,
         child: Stack(
@@ -31,14 +29,15 @@ class WelcomeScreen extends StatelessWidget {
                 SizedBox(height: ScreenUtil().setHeight(20)),
                 Container(
                     height: 0.5.sh,
-                    padding: EdgeInsets.symmetric(horizontal: 0, vertical: 60),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 0, vertical: 60),
                     child: SvgPicture.asset(
                       'assets/image_03.svg',
                       fit: BoxFit.fitHeight,
                     )),
                 Row(
                   children: [
-                    Spacer(),
+                    const Spacer(),
                     Expanded(
                       flex: 8,
                       child: Column(children: [
@@ -50,8 +49,8 @@ class WelcomeScreen extends StatelessWidget {
                                 backgroundColor: CustomColor.kSecondaryColor
                                     .withOpacity(0.8),
                                 shape: const StadiumBorder(),
-                                maximumSize: Size(double.infinity, 56),
-                                minimumSize: Size(double.infinity, 56)),
+                                maximumSize: const Size(double.infinity, 56),
+                                minimumSize: const Size(double.infinity, 56)),
                             onPressed: () {
                               Navigator.pushNamedAndRemoveUntil(
                                 context,
@@ -59,7 +58,7 @@ class WelcomeScreen extends StatelessWidget {
                                 (route) => false,
                               );
                             },
-                            child: Text('LOGIN')),
+                            child: const Text('LOGIN')),
                         const SizedBox(height: 16),
                         ElevatedButton(
                             style: ElevatedButton.styleFrom(
@@ -68,8 +67,8 @@ class WelcomeScreen extends StatelessWidget {
                               shadowColor: theme.shadowColor,
                               backgroundColor: Colors.black26,
                               shape: const StadiumBorder(),
-                              maximumSize: Size(double.infinity, 56),
-                              minimumSize: Size(double.infinity, 56),
+                              maximumSize: const Size(double.infinity, 56),
+                              minimumSize: const Size(double.infinity, 56),
                             ),
                             onPressed: () {
                               Navigator.pushNamedAndRemoveUntil(
@@ -84,7 +83,7 @@ class WelcomeScreen extends StatelessWidget {
                             )),
                       ]),
                     ),
-                    Spacer(),
+                    const Spacer(),
                   ],
                 ),
               ],

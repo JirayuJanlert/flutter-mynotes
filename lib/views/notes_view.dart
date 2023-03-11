@@ -1,10 +1,9 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_course/Utilities.dart';
 import 'package:flutter_course/constant/custom.dart';
-import 'dart:developer' as devtools show log;
-
 import 'package:flutter_course/constant/routes.dart';
+import 'package:flutter_course/enums/menu_action.dart';
+import 'package:flutter_course/services/auth/auth_service.dart';
 
 class NotesView extends StatefulWidget {
   const NotesView({super.key});
@@ -38,11 +37,12 @@ class _NotesViewState extends State<NotesView> {
                       'Sign Out',
                       'Cancel',
                       'Confirm');
-                  devtools.log(shouldLogout.toString());
                   if (shouldLogout) {
-                    await FirebaseAuth.instance.signOut();
-                    Navigator.of(context)
-                        .pushNamedAndRemoveUntil(loginRoute, (route) => false);
+                    await AuthService.firebase().logOut();
+                    if (mounted) {
+                      Navigator.of(context).pushNamedAndRemoveUntil(
+                          loginRoute, (route) => false);
+                    }
                   }
                   break;
                 default:
@@ -69,5 +69,3 @@ class _NotesViewState extends State<NotesView> {
     );
   }
 }
-
-enum MenuAction { logout }

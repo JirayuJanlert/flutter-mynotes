@@ -1,9 +1,9 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_course/constant/custom.dart';
 import 'package:flutter_course/constant/routes.dart';
+import 'package:flutter_course/services/auth/auth_exception.dart';
+import 'package:flutter_course/services/auth/auth_service.dart';
 import 'package:flutter_course/utilities.dart';
-import 'package:flutter_course/views/login_view.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class RegisterView extends StatefulWidget {
@@ -19,10 +19,10 @@ class _RegisterViewState extends State<RegisterView> {
   late final TextEditingController _password;
   late final TextEditingController _confirmPassword;
   final _registerKey = GlobalKey<FormState>();
+  final AuthService authService = AuthService.firebase();
 
   @override
   void initState() {
-    // TODO: implement initState
     _email = TextEditingController();
     _password = TextEditingController();
     _confirmPassword = TextEditingController();
@@ -31,7 +31,6 @@ class _RegisterViewState extends State<RegisterView> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     _email.dispose();
     _password.dispose();
     super.dispose();
@@ -45,7 +44,7 @@ class _RegisterViewState extends State<RegisterView> {
         child: LayoutBuilder(builder: (context, constraint) {
           return SingleChildScrollView(
             scrollDirection: Axis.vertical,
-            physics: ScrollPhysics(),
+            physics: const ScrollPhysics(),
             child: ConstrainedBox(
               constraints: BoxConstraints(minHeight: constraint.maxHeight),
               child: IntrinsicHeight(
@@ -94,7 +93,7 @@ class _RegisterViewState extends State<RegisterView> {
                                 errorBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(20),
                                   borderSide: BorderSide(
-                                      width: 3, color: theme.errorColor),
+                                      width: 3, color: theme.colorScheme.error),
                                 ),
                                 hintText: 'Enter your email here',
                                 labelText: 'Email',
@@ -120,7 +119,7 @@ class _RegisterViewState extends State<RegisterView> {
                                 errorBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(20),
                                   borderSide: BorderSide(
-                                      width: 3, color: theme.errorColor),
+                                      width: 3, color: theme.colorScheme.error),
                                 ),
                                 enabledBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(20),
@@ -183,41 +182,40 @@ class _RegisterViewState extends State<RegisterView> {
                               backgroundColor: Colors.transparent),
                           onPressed: () async {
                             if (_registerKey.currentState!.validate()) {
+                              final email = _email.text;
+                              final password = _password.text;
                               try {
-                                final email = _email.text;
-                                final password = _password.text;
-                                final userCredential = await FirebaseAuth
-                                    .instance
-                                    .createUserWithEmailAndPassword(
-                                        email: email, password: password);
-                                final user = FirebaseAuth.instance.currentUser;
-                                await user?.sendEmailVerification();
+                                await authService.createUser(
+                                  email: email,
+                                  password: password,
+                                );
+                                await authService.sendEmailVerification();
                                 // use pushNamed because it allows user to go back to change the misinformation in the register view.
-                                Navigator.of(context)
-                                    .pushNamed(verifyEmailRoute);
-                              } on FirebaseAuthException catch (e) {
-                                if (e.code == 'weak-password') {
-                                  await showAlertDialogOk(
-                                    'Weak password',
-                                    'Error',
-                                    context,
-                                  );
-                                } else if (e.code == 'email-already-in-use') {
-                                  await showAlertDialogOk(
-                                    'Email is already use',
-                                    'Error',
-                                    context,
-                                  );
-                                } else if (e.code == 'invalid-email') {
-                                  await showAlertDialogOk(
-                                    'Invalid email entered',
-                                    'Error',
-                                    context,
-                                  );
+                                if (mounted) {
+                                  Navigator.of(context)
+                                      .pushNamed(verifyEmailRoute);
                                 }
-                              } catch (e) {
+                              } on WeakPasswordAuthException {
                                 await showAlertDialogOk(
-                                  e.toString(),
+                                  'Weak password',
+                                  'Error',
+                                  context,
+                                );
+                              } on EmailAlreadyInUseAuthException {
+                                await showAlertDialogOk(
+                                  'Email is already use',
+                                  'Error',
+                                  context,
+                                );
+                              } on InvalidEmailAuthException {
+                                await showAlertDialogOk(
+                                  'Invalid email entered',
+                                  'Error',
+                                  context,
+                                );
+                              } on GenericAuthException {
+                                await showAlertDialogOk(
+                                  'Authentication error',
                                   'Error',
                                   context,
                                 );
@@ -262,7 +260,6 @@ class _RegisterViewState extends State<RegisterView> {
                             ),
                             GestureDetector(
                               onTap: () {
-                                final page = const LoginView();
                                 Navigator.pushNamedAndRemoveUntil(
                                     context, loginRoute, (route) => false);
                                 // Navigator.pushReplacement(

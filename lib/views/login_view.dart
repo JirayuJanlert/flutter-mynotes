@@ -1,6 +1,7 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_course/constant/routes.dart';
+import 'package:flutter_course/services/auth/auth_exception.dart';
+import 'package:flutter_course/services/auth/auth_service.dart';
 import 'package:flutter_course/utilities.dart';
 import 'package:flutter_course/constant/custom.dart';
 import 'package:flutter_course/widgets/horrizontal_line.dart';
@@ -18,6 +19,7 @@ class LoginView extends StatefulWidget {
 class _LoginViewState extends State<LoginView> {
   late final TextEditingController _username;
   late final TextEditingController _password;
+  final AuthService authService = AuthService.firebase();
   bool _isSelected = false;
 
   void _radio() {
@@ -28,7 +30,6 @@ class _LoginViewState extends State<LoginView> {
 
   @override
   void initState() {
-    // TODO: implement initState
     _username = TextEditingController();
     _password = TextEditingController();
     super.initState();
@@ -136,7 +137,8 @@ class _LoginViewState extends State<LoginView> {
                                 Text(
                                   "Forgot Password?",
                                   style: TextStyle(
-                                      color: theme.accentColor, fontSize: 20),
+                                      color: theme.colorScheme.secondary,
+                                      fontSize: 20),
                                 )
                               ],
                             )
@@ -188,50 +190,44 @@ class _LoginViewState extends State<LoginView> {
                               final email = _username.text;
                               final password = _password.text;
                               try {
-                                await FirebaseAuth.instance
-                                    .signInWithEmailAndPassword(
-                                  email: email,
-                                  password: password,
-                                );
-                                final user = FirebaseAuth.instance.currentUser;
-                                if (user?.emailVerified ?? false) {
+                                await authService.login(
+                                    email: email, password: password);
+                                final user = authService.currentUser;
+                                if (user?.isEmailVerified ?? false) {
                                   //user email is verified
-                                  Navigator.of(context).pushNamedAndRemoveUntil(
-                                    notesRoute,
-                                    (route) => false,
-                                  );
+                                  if (mounted) {
+                                    Navigator.of(context)
+                                        .pushNamedAndRemoveUntil(
+                                      notesRoute,
+                                      (route) => false,
+                                    );
+                                  }
                                 } else {
                                   // user's email is NOT verified
-                                  Navigator.of(context).pushNamedAndRemoveUntil(
-                                    verifyEmailRoute,
-                                    (route) => false,
-                                  );
+                                  if (mounted) {
+                                    Navigator.of(context)
+                                        .pushNamedAndRemoveUntil(
+                                      verifyEmailRoute,
+                                      (route) => false,
+                                    );
+                                  }
                                 }
                                 // Firebase exception catch
-                              } on FirebaseAuthException catch (exception) {
-                                if (exception.code == 'user-not-found') {
-                                  await showAlertDialogOk(
-                                    'User not found',
-                                    'Error',
-                                    context,
-                                  );
-                                } else if (exception.code == 'wrong-password') {
-                                  await showAlertDialogOk(
-                                    'Wrong credentials',
-                                    'Error',
-                                    context,
-                                  );
-                                } else {
-                                  await showAlertDialogOk(
-                                    'Error: ${exception.code}',
-                                    'Error',
-                                    context,
-                                  );
-                                }
-                                // Generic exception catch
-                              } catch (exception) {
+                              } on UserNotFoundAuthException {
                                 await showAlertDialogOk(
-                                  exception.toString(),
+                                  'User not found',
+                                  'Error',
+                                  context,
+                                );
+                              } on WrongPasswordAuthException {
+                                await showAlertDialogOk(
+                                  'Wrong credentials',
+                                  'Error',
+                                  context,
+                                );
+                              } on GenericAuthException {
+                                await showAlertDialogOk(
+                                  'Error: Authentication error',
                                   'Error',
                                   context,
                                 );

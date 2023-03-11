@@ -1,13 +1,10 @@
 import 'dart:async';
-
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_course/Utilities.dart';
 import 'package:flutter_course/constant/custom.dart';
 import 'package:flutter_course/constant/routes.dart';
+import 'package:flutter_course/services/auth/auth_service.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class VerifyEmailView extends StatefulWidget {
   const VerifyEmailView({super.key});
@@ -19,11 +16,12 @@ class VerifyEmailView extends StatefulWidget {
 class _VerifyEmailViewState extends State<VerifyEmailView> {
   bool isEmailVerified = false;
   bool canResendEmail = true;
+  final AuthService authService = AuthService.firebase();
   Timer? timer;
 
   @override
   void initState() {
-    isEmailVerified = FirebaseAuth.instance.currentUser!.emailVerified;
+    isEmailVerified = authService.currentUser!.isEmailVerified;
 
     timer = Timer.periodic(
       const Duration(seconds: 3),
@@ -34,10 +32,9 @@ class _VerifyEmailViewState extends State<VerifyEmailView> {
 
   Future sendVerificationEmail() async {
     try {
-      final user = FirebaseAuth.instance.currentUser!;
-      await user.sendEmailVerification();
+      await authService.sendEmailVerification();
       setState(() => canResendEmail = false);
-      await Future.delayed(Duration(seconds: 5));
+      await Future.delayed(const Duration(seconds: 5));
       setState(() => canResendEmail = true);
     } catch (e) {
       await showAlertDialogOk(e.toString(), 'Error', context);
@@ -45,9 +42,9 @@ class _VerifyEmailViewState extends State<VerifyEmailView> {
   }
 
   Future checkEmailVerified() async {
-    await FirebaseAuth.instance.currentUser!.reload();
+    await authService.reload();
     setState(() {
-      isEmailVerified = FirebaseAuth.instance.currentUser!.emailVerified;
+      isEmailVerified = authService.currentUser!.isEmailVerified;
     });
     if (isEmailVerified) {
       timer?.cancel();
@@ -56,7 +53,6 @@ class _VerifyEmailViewState extends State<VerifyEmailView> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     timer?.cancel();
     super.dispose();
   }
@@ -87,7 +83,7 @@ class _VerifyEmailViewState extends State<VerifyEmailView> {
               child: TextButton.icon(
                   style: ButtonStyle(
                       minimumSize:
-                          MaterialStateProperty.all(Size.fromHeight(30)),
+                          MaterialStateProperty.all(const Size.fromHeight(30)),
                       backgroundColor:
                           MaterialStateProperty.all(CustomColor.kPrimaryColor)),
                   onPressed: canResendEmail
@@ -108,7 +104,7 @@ class _VerifyEmailViewState extends State<VerifyEmailView> {
             TextButton(
                 onPressed: () async {
                   if (mounted) {
-                    await FirebaseAuth.instance.signOut().then((value) {
+                    await authService.logOut().then((value) {
                       Navigator.pushNamedAndRemoveUntil(
                           context, loginRoute, (route) => false);
                     });
@@ -145,7 +141,7 @@ class _VerifyEmailViewState extends State<VerifyEmailView> {
             TextButton(
                 onPressed: () async {
                   if (mounted) {
-                    await FirebaseAuth.instance.signOut().then((value) {
+                    await authService.logOut().then((_) {
                       Navigator.pushNamedAndRemoveUntil(
                           context, loginRoute, (route) => false);
                     });

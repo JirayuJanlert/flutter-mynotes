@@ -13,11 +13,16 @@ void main() async {
     debugShowCheckedModeBanner: false,
     title: 'Flutter Demo',
     theme: ThemeData(
-      textTheme:
-          const TextTheme(headlineLarge: TextStyle(color: Color(0xFF6078ea))),
+      textTheme: const TextTheme(
+          headlineLarge: TextStyle(
+        color: Color(0xFF6078ea),
+      )),
       fontFamily: "Poppins-Medium",
-      colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue)
-          .copyWith(secondary: const Color(0xFF5d74e3)),
+      colorScheme: ColorScheme.fromSeed(
+        seedColor: Colors.blue,
+      ).copyWith(
+        secondary: const Color(0xFF5d74e3),
+      ),
     ),
     home: const HomePage(),
     routes: {

@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:flutter_course/Utilities.dart';
 import 'package:flutter_course/constant/custom.dart';
 import 'package:flutter_course/constant/routes.dart';
 import 'package:flutter_course/services/auth/auth_service.dart';
+import 'package:flutter_course/utilities/dialog/error_dialog.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class VerifyEmailView extends StatefulWidget {
@@ -37,7 +37,7 @@ class _VerifyEmailViewState extends State<VerifyEmailView> {
       await Future.delayed(const Duration(seconds: 5));
       setState(() => canResendEmail = true);
     } catch (e) {
-      await showAlertDialogOk(e.toString(), 'Error', context);
+      showErrorDialog(context, e.toString());
     }
   }
 

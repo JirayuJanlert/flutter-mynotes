@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_course/Utilities.dart';
-import 'package:flutter_course/constant/custom.dart';
 import 'package:flutter_course/constant/routes.dart';
 import 'package:flutter_course/enums/menu_action.dart';
 import 'package:flutter_course/services/auth/auth_service.dart';
 import 'package:flutter_course/services/crud/notes_service.dart';
+import 'package:flutter_course/utilities/dialog/logout_dialog.dart';
+import 'package:flutter_course/views/notes/notes_list_view.dart';
 import 'package:flutter_course/widgets/loading_indicator.dart';
 
 class NotesView extends StatefulWidget {
@@ -28,7 +28,6 @@ class _NotesViewState extends State<NotesView> {
 
   @override
   Widget build(BuildContext context) {
-    ThemeData theme = Theme.of(context);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Your Notes'),
@@ -46,12 +45,7 @@ class _NotesViewState extends State<NotesView> {
               });
               switch (value) {
                 case MenuAction.logout:
-                  final shouldLogout = await showDialogActions(
-                      context,
-                      'Are you sure you want to sign out?',
-                      'Sign Out',
-                      'Cancel',
-                      'Confirm');
+                  final shouldLogout = await showLogOutDialog(context);
                   if (shouldLogout) {
                     await AuthService.firebase().logOut();
                     if (mounted) {
@@ -86,33 +80,15 @@ class _NotesViewState extends State<NotesView> {
                   builder: (context, snapshot) {
                     switch (snapshot.connectionState) {
                       case ConnectionState.waiting:
-                        return Center(
-                            child: Text(
-                          'Waiting for all your notes',
-                          style: theme.textTheme.bodyLarge,
-                        ));
                       case ConnectionState.active:
                         if (snapshot.hasData) {
                           final notes = snapshot.data as List<DatabaseNote>;
-                          return ListView.builder(
-                              itemCount: notes.length,
-                              itemBuilder: (context, i) {
-                                final note = notes[i];
-                                return ListTile(
-                                  title: Text(
-                                    note.text,
-                                    maxLines: 1,
-                                    softWrap: true,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                  trailing: IconButton(
-                                      onPressed: () async {
-                                        await _notesService.deleteNote(
-                                            noteId: note.id);
-                                      },
-                                      icon: const Icon(Icons.delete)),
-                                );
-                              });
+                          return NoteListView(
+                            notes: notes,
+                            onDeleteNote: (note) async {
+                              await _notesService.deleteNote(noteId: note.id);
+                            },
+                          );
                         } else {
                           return const Text('No notes');
                         }

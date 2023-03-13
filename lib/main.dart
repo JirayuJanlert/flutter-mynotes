@@ -8,7 +8,6 @@ import 'package:flutter_course/views/register_view.dart';
 import 'package:flutter_course/views/veiry_email_view.dart';
 import 'package:flutter_course/views/login_view.dart';
 import 'package:flutter_course/views/welcome_view.dart';
-import 'package:path/path.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

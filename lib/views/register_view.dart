@@ -3,8 +3,9 @@ import 'package:flutter_course/constant/custom.dart';
 import 'package:flutter_course/constant/routes.dart';
 import 'package:flutter_course/services/auth/auth_exception.dart';
 import 'package:flutter_course/services/auth/auth_service.dart';
-import 'package:flutter_course/utilities.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import '../utilities/snackbar/show_snack_bar.dart';
 
 class RegisterView extends StatefulWidget {
   const RegisterView({Key? key}) : super(key: key);

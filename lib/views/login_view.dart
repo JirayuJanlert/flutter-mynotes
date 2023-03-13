@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_course/constant/routes.dart';
 import 'package:flutter_course/services/auth/auth_exception.dart';
 import 'package:flutter_course/services/auth/auth_service.dart';
-import 'package:flutter_course/utilities.dart';
 import 'package:flutter_course/constant/custom.dart';
 import 'package:flutter_course/widgets/horrizontal_line.dart';
 import 'package:flutter_course/widgets/radio_button.dart';
 import 'package:flutter_course/widgets/social_icon.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import '../utilities/snackbar/show_snack_bar.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({Key? key}) : super(key: key);

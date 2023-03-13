@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_course/services/auth/auth_service.dart';
-import 'package:flutter_course/views/notes_view.dart';
+import 'package:flutter_course/views/notes/notes_view.dart';
 import 'package:flutter_course/views/veiry_email_view.dart';
 import 'package:flutter_course/views/welcome_view.dart';
 import 'package:flutter_course/widgets/loading_indicator.dart';

@@ -34,13 +34,16 @@ class _NotesViewState extends State<NotesView> {
 
   @override
   Widget build(BuildContext context) {
+    ThemeData theme = Theme.of(context);
     return Scaffold(
       appBar: AppBar(
-        centerTitle: true,
-        backgroundColor: CustomColor.kSecondaryColor,
-        shadowColor: Colors.transparent,
-        title: const Text('MyNote'),
+        title: const Text('Your Notes'),
         actions: [
+          IconButton(
+              onPressed: () {
+                Navigator.pushNamed(context, newNoteRoute);
+              },
+              icon: const Icon(Icons.add)),
           PopupMenuButton<MenuAction>(
             initialValue: selectedAction,
             onSelected: (value) async {
@@ -89,7 +92,11 @@ class _NotesViewState extends State<NotesView> {
                   builder: (context, snapshot) {
                     switch (snapshot.connectionState) {
                       case ConnectionState.waiting:
-                        return const Text('Waiting for all notes');
+                        return Center(
+                            child: Text(
+                          'Waiting for all your notes',
+                          style: theme.textTheme.bodyLarge,
+                        ));
                       case ConnectionState.done:
                         return Center(
                             child: Text(

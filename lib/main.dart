@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_course/constant/custom.dart';
 import 'package:flutter_course/constant/routes.dart';
 import 'package:flutter_course/views/home_page.dart';
-import 'package:flutter_course/views/notes_view.dart';
+import 'package:flutter_course/views/notes/new_note_view.dart';
+import 'package:flutter_course/views/notes/notes_view.dart';
 import 'package:flutter_course/views/register_view.dart';
 import 'package:flutter_course/views/veiry_email_view.dart';
 import 'package:flutter_course/views/login_view.dart';
 import 'package:flutter_course/views/welcome_view.dart';
+import 'package:path/path.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -13,6 +16,10 @@ void main() async {
     debugShowCheckedModeBanner: false,
     title: 'Flutter Demo',
     theme: ThemeData(
+      appBarTheme: const AppBarTheme(
+        backgroundColor: CustomColor.kSecondaryColor,
+        shadowColor: Colors.transparent,
+      ),
       textTheme: const TextTheme(
           headlineLarge: TextStyle(
         color: Color(0xFF6078ea),
@@ -30,7 +37,8 @@ void main() async {
       registerRoute: (context) => const RegisterView(),
       verifyEmailRoute: (context) => const VerifyEmailView(),
       notesRoute: (context) => const NotesView(),
-      welcomeRoute: (context) => const WelcomeScreen()
+      welcomeRoute: (context) => const WelcomeScreen(),
+      newNoteRoute: (context) => const NewNoteView()
     },
   ));
 }

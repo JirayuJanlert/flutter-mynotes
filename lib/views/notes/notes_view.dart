@@ -27,12 +27,6 @@ class _NotesViewState extends State<NotesView> {
   }
 
   @override
-  void dispose() {
-    _notesService.close();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     ThemeData theme = Theme.of(context);
     return Scaffold(
@@ -92,18 +86,36 @@ class _NotesViewState extends State<NotesView> {
                   builder: (context, snapshot) {
                     switch (snapshot.connectionState) {
                       case ConnectionState.waiting:
-                      case ConnectionState.active:
                         return Center(
                             child: Text(
                           'Waiting for all your notes',
                           style: theme.textTheme.bodyLarge,
                         ));
-                      case ConnectionState.done:
-                        return Center(
-                            child: Text(
-                          'Main UI',
-                          style: Theme.of(context).textTheme.displayMedium,
-                        ));
+                      case ConnectionState.active:
+                        if (snapshot.hasData) {
+                          final notes = snapshot.data as List<DatabaseNote>;
+                          return ListView.builder(
+                              itemCount: notes.length,
+                              itemBuilder: (context, i) {
+                                final note = notes[i];
+                                return ListTile(
+                                  title: Text(
+                                    note.text,
+                                    maxLines: 1,
+                                    softWrap: true,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                  trailing: IconButton(
+                                      onPressed: () async {
+                                        await _notesService.deleteNote(
+                                            noteId: note.id);
+                                      },
+                                      icon: const Icon(Icons.delete)),
+                                );
+                              });
+                        } else {
+                          return const Text('No notes');
+                        }
                       default:
                         return customLoadingIndicator();
                     }

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_course/constant/custom.dart';
 import 'package:flutter_course/constant/routes.dart';
 import 'package:flutter_course/views/home_page.dart';
-import 'package:flutter_course/views/notes/new_note_view.dart';
+import 'package:flutter_course/views/notes/create_update_note_view.dart';
 import 'package:flutter_course/views/notes/notes_view.dart';
 import 'package:flutter_course/views/register_view.dart';
 import 'package:flutter_course/views/veiry_email_view.dart';
@@ -37,7 +37,7 @@ void main() async {
       verifyEmailRoute: (context) => const VerifyEmailView(),
       notesRoute: (context) => const NotesView(),
       welcomeRoute: (context) => const WelcomeScreen(),
-      newNoteRoute: (context) => const NewNoteView()
+      createOrUpdateNoteRoute: (context) => const CreateUpdateNoteView()
     },
   ));
 }

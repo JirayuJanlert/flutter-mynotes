@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_course/constant/custom.dart';
-import 'package:flutter_course/constant/routes.dart';
+import 'package:flutter_course/services/auth/bloc/auth_bloc.dart';
+import 'package:flutter_course/views/login_view.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -10,6 +12,7 @@ class WelcomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ThemeData theme = Theme.of(context);
+
     return Scaffold(
       body: SizedBox(
         width: ScreenUtil().screenWidth,
@@ -52,10 +55,15 @@ class WelcomeScreen extends StatelessWidget {
                                 maximumSize: const Size(double.infinity, 56),
                                 minimumSize: const Size(double.infinity, 56)),
                             onPressed: () {
-                              Navigator.pushNamedAndRemoveUntil(
-                                context,
-                                loginRoute,
-                                (route) => false,
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (ctx) {
+                                    return BlocProvider.value(
+                                      value: BlocProvider.of<AuthBloc>(context),
+                                      child: LoginView(),
+                                    );
+                                  },
+                                ),
                               );
                             },
                             child: const Text('LOGIN')),
@@ -70,13 +78,7 @@ class WelcomeScreen extends StatelessWidget {
                               maximumSize: const Size(double.infinity, 56),
                               minimumSize: const Size(double.infinity, 56),
                             ),
-                            onPressed: () {
-                              Navigator.pushNamedAndRemoveUntil(
-                                context,
-                                registerRoute,
-                                (route) => false,
-                              );
-                            },
+                            onPressed: () {},
                             child: Text(
                               'SIGNUP',
                               style: theme.textTheme.labelLarge,

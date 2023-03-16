@@ -4,3 +4,4 @@ const notesRoute = '/notes/';
 const welcomeRoute = '/welcome/';
 const verifyEmailRoute = '/verify-email/';
 const createOrUpdateNoteRoute = '/notes/new-note/';
+const homePageRoute = '/homepage/';

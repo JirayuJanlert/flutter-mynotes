@@ -43,7 +43,8 @@ void main() async {
       verifyEmailRoute: (context) => const VerifyEmailView(),
       notesRoute: (context) => const NotesView(),
       welcomeRoute: (context) => const WelcomeScreen(),
-      createOrUpdateNoteRoute: (context) => const CreateUpdateNoteView()
+      createOrUpdateNoteRoute: (context) => const CreateUpdateNoteView(),
+      homePageRoute: (context) => const HomePage(),
     },
   ));
 }

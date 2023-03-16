@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_course/constant/routes.dart';
 import 'package:flutter_course/services/auth/auth_exception.dart';
 import 'package:flutter_course/services/auth/auth_service.dart';
 import 'package:flutter_course/constant/custom.dart';
+import 'package:flutter_course/services/auth/bloc/auth_bloc.dart';
+import 'package:flutter_course/services/auth/bloc/auth_event.dart';
 import 'package:flutter_course/widgets/horrizontal_line.dart';
 import 'package:flutter_course/widgets/radio_button.dart';
 import 'package:flutter_course/widgets/social_icon.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import '../utilities/snackbar/show_snack_bar.dart';
 
 class LoginView extends StatefulWidget {
@@ -191,28 +193,10 @@ class _LoginViewState extends State<LoginView> {
                               final email = _username.text;
                               final password = _password.text;
                               try {
-                                await authService.login(
-                                    email: email, password: password);
-                                final user = authService.currentUser;
-                                if (user?.isEmailVerified ?? false) {
-                                  //user email is verified
-                                  if (mounted) {
-                                    Navigator.of(context)
-                                        .pushNamedAndRemoveUntil(
-                                      notesRoute,
-                                      (route) => false,
-                                    );
-                                  }
-                                } else {
-                                  // user's email is NOT verified
-                                  if (mounted) {
-                                    Navigator.of(context)
-                                        .pushNamedAndRemoveUntil(
-                                      verifyEmailRoute,
-                                      (route) => false,
-                                    );
-                                  }
-                                }
+                                context.read<AuthBloc>().add(AuthEventLogIn(
+                                      email,
+                                      password,
+                                    ));
                                 // Firebase exception catch
                               } on UserNotFoundAuthException {
                                 showSnackBar(context, 'User not found');
@@ -221,6 +205,7 @@ class _LoginViewState extends State<LoginView> {
                               } on GenericAuthException {
                                 showSnackBar(context, 'Authentication Error');
                               } catch (e) {
+                                print(e);
                                 showSnackBar(context, e.toString());
                               }
                             },

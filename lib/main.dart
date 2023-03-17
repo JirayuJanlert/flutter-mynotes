@@ -6,11 +6,6 @@ import 'package:flutter_course/services/auth/bloc/auth_bloc.dart';
 import 'package:flutter_course/services/auth/firebase_auth_provider.dart';
 import 'package:flutter_course/views/home_page.dart';
 import 'package:flutter_course/views/notes/create_update_note_view.dart';
-import 'package:flutter_course/views/notes/notes_view.dart';
-import 'package:flutter_course/views/register_view.dart';
-import 'package:flutter_course/views/veiry_email_view.dart';
-import 'package:flutter_course/views/login_view.dart';
-import 'package:flutter_course/views/welcome_view.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -38,13 +33,7 @@ void main() async {
       child: const HomePage(),
     ),
     routes: {
-      loginRoute: (context) => const LoginView(),
-      registerRoute: (context) => const RegisterView(),
-      verifyEmailRoute: (context) => const VerifyEmailView(),
-      notesRoute: (context) => const NotesView(),
-      welcomeRoute: (context) => const WelcomeScreen(),
       createOrUpdateNoteRoute: (context) => const CreateUpdateNoteView(),
-      homePageRoute: (context) => const HomePage(),
     },
   ));
 }

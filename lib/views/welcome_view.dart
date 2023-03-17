@@ -60,7 +60,7 @@ class WelcomeScreen extends StatelessWidget {
                                   builder: (ctx) {
                                     return BlocProvider.value(
                                       value: BlocProvider.of<AuthBloc>(context),
-                                      child: LoginView(),
+                                      child: const LoginView(),
                                     );
                                   },
                                 ),

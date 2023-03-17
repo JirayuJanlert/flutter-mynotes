@@ -5,8 +5,8 @@ import 'package:flutter_course/services/auth/bloc/auth_event.dart';
 import 'package:flutter_course/services/auth/bloc/auth_state.dart';
 import 'package:flutter_course/views/login_view.dart';
 import 'package:flutter_course/views/notes/notes_view.dart';
+import 'package:flutter_course/views/register_view.dart';
 import 'package:flutter_course/views/veiry_email_view.dart';
-import 'package:flutter_course/views/welcome_view.dart';
 import 'package:flutter_course/widgets/loading_indicator.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -27,6 +27,8 @@ class HomePage extends StatelessWidget {
           return const LoginView();
         } else if (state is AuthStateNeedsVerification) {
           return const VerifyEmailView();
+        } else if (state is AuthStateRegistering) {
+          return const RegisterView();
         } else {
           return Scaffold(body: customLoadingIndicator());
         }

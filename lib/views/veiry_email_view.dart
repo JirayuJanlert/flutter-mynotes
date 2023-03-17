@@ -1,8 +1,10 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_course/constant/custom.dart';
-import 'package:flutter_course/constant/routes.dart';
 import 'package:flutter_course/services/auth/auth_service.dart';
+import 'package:flutter_course/services/auth/bloc/auth_bloc.dart';
+import 'package:flutter_course/services/auth/bloc/auth_event.dart';
 import 'package:flutter_course/utilities/dialog/error_dialog.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -84,10 +86,13 @@ class _VerifyEmailViewState extends State<VerifyEmailView> {
                   style: ButtonStyle(
                       minimumSize:
                           MaterialStateProperty.all(const Size.fromHeight(30)),
-                      backgroundColor:
-                          MaterialStateProperty.all(CustomColor.kPrimaryColor)),
+                      backgroundColor: canResendEmail
+                          ? MaterialStateProperty.all(CustomColor.kPrimaryColor)
+                          : MaterialStateProperty.all(Colors.grey)),
                   onPressed: canResendEmail
-                      ? () async => await sendVerificationEmail()
+                      ? () => context
+                          .read<AuthBloc>()
+                          .add(const AuthEventSendEmailVerification())
                       : null,
                   icon: const Icon(
                     Icons.email,
@@ -102,13 +107,8 @@ class _VerifyEmailViewState extends State<VerifyEmailView> {
               height: ScreenUtil().setHeight(20),
             ),
             TextButton(
-                onPressed: () async {
-                  if (mounted) {
-                    await authService.logOut().then((value) {
-                      Navigator.pushNamedAndRemoveUntil(
-                          context, loginRoute, (route) => false);
-                    });
-                  }
+                onPressed: () {
+                  context.read<AuthBloc>().add(const AuthEventLogOut());
                 },
                 child: const Text(
                   'Cancel',
@@ -140,12 +140,7 @@ class _VerifyEmailViewState extends State<VerifyEmailView> {
             ),
             TextButton(
                 onPressed: () async {
-                  if (mounted) {
-                    await authService.logOut().then((_) {
-                      Navigator.pushNamedAndRemoveUntil(
-                          context, loginRoute, (route) => false);
-                    });
-                  }
+                  context.read<AuthBloc>().add(const AuthEventLogOut());
                 },
                 child: const Text('Go to Login')),
           ]),

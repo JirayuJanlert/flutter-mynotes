@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_course/constant/routes.dart';
 import 'package:flutter_course/services/auth/auth_exception.dart';
-import 'package:flutter_course/services/auth/auth_service.dart';
 import 'package:flutter_course/constant/custom.dart';
 import 'package:flutter_course/services/auth/bloc/auth_bloc.dart';
 import 'package:flutter_course/services/auth/bloc/auth_event.dart';
 import 'package:flutter_course/services/auth/bloc/auth_state.dart';
 import 'package:flutter_course/utilities/dialog/error_dialog.dart';
+import 'package:flutter_course/utilities/dialog/loading_dialog.dart';
 import 'package:flutter_course/widgets/horrizontal_line.dart';
 import 'package:flutter_course/widgets/radio_button.dart';
 import 'package:flutter_course/widgets/social_icon.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../utilities/snackbar/show_snack_bar.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({Key? key}) : super(key: key);
@@ -24,7 +22,7 @@ class LoginView extends StatefulWidget {
 class _LoginViewState extends State<LoginView> {
   late final TextEditingController _username;
   late final TextEditingController _password;
-  final AuthService authService = AuthService.firebase();
+  CloseDialog? _closeDialogHandle;
   bool _isSelected = false;
 
   void _radio() {
@@ -41,11 +39,28 @@ class _LoginViewState extends State<LoginView> {
   }
 
   @override
+  void dispose() {
+    _username.dispose();
+    _password.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     ThemeData theme = Theme.of(context);
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) async {
         if (state is AuthStateLoggedOut) {
+          final closeDialog = _closeDialogHandle;
+          if (!state.isLoading && closeDialog != null) {
+            closeDialog();
+            _closeDialogHandle = null;
+          } else if (state.isLoading && closeDialog == null) {
+            _closeDialogHandle = showLoadingDialog(
+              context: context,
+              text: 'Loading...',
+            );
+          }
           if (state.exception is UserNotFoundAuthException) {
             await showErrorDialog(context, 'User Not found');
           } else if (state.exception is WrongPasswordAuthException) {
@@ -298,8 +313,9 @@ class _LoginViewState extends State<LoginView> {
                       ),
                       InkWell(
                         onTap: () {
-                          Navigator.pushNamedAndRemoveUntil(
-                              context, registerRoute, (route) => false);
+                          context
+                              .read<AuthBloc>()
+                              .add(const AuthEventShouldRegister());
                         },
                         child: const Text("SignUp",
                             style: TextStyle(

@@ -7,7 +7,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final AuthProvider _provider;
   AuthBloc(AuthProvider provider)
       : _provider = provider,
-        super(const AuthStateUninitialize()) {
+        super(const AuthStateUninitialize(isLoading: true)) {
     on<AuthEventInitialize>(_onInitialize);
     on<AuthEventLogIn>(_onLogIn);
     on<AuthEventLogOut>(_onLogOut);
@@ -23,9 +23,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     if (user == null) {
       emit(const AuthStateLoggedOut(exception: null, isLoading: false));
     } else if (!user.isEmailVerified) {
-      emit(const AuthStateNeedsVerification());
+      emit(const AuthStateNeedsVerification(isLoading: false));
     } else {
-      emit(AuthStateLoggedIn(user));
+      emit(AuthStateLoggedIn(user: user, isLoading: false));
     }
   }
 
@@ -33,6 +33,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     emit(const AuthStateLoggedOut(
       exception: null,
       isLoading: true,
+      loadingText: 'Please wait while I log you in',
     ));
     final email = event.email;
     final password = event.password;
@@ -43,13 +44,16 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           exception: null,
           isLoading: false,
         ));
-        emit(const AuthStateNeedsVerification());
+        emit(const AuthStateNeedsVerification(isLoading: false));
       } else {
         emit(const AuthStateLoggedOut(
           exception: null,
           isLoading: false,
         ));
-        emit(AuthStateLoggedIn(user));
+        emit(AuthStateLoggedIn(
+          user: user,
+          isLoading: false,
+        ));
       }
     } on Exception catch (e) {
       emit(AuthStateLoggedOut(
@@ -82,9 +86,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         password: password,
       );
       await _provider.sendEmailVerification();
-      emit(const AuthStateNeedsVerification());
+      emit(const AuthStateNeedsVerification(isLoading: false));
     } on Exception catch (e) {
-      emit(AuthStateRegistering(e));
+      emit(AuthStateRegistering(
+        exception: e,
+        isLoading: false,
+      ));
     }
   }
 
@@ -98,6 +105,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   Future<void> _onShouldRegister(
       AuthEventShouldRegister event, Emitter<AuthState> emit) async {
-    emit(const AuthStateRegistering(null));
+    emit(const AuthStateRegistering(isLoading: false, exception: null));
   }
 }

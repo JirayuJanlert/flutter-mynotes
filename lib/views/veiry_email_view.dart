@@ -68,17 +68,17 @@ class _VerifyEmailViewState extends State<VerifyEmailView> {
             Icon(
               Icons.verified,
               color: Colors.black38,
-              size: 250.sp,
+              size: 120.sp,
             ),
             SizedBox(
-              height: ScreenUtil().setHeight(200),
+              height: ScreenUtil().setHeight(50),
             ),
             const Text(
               'A verification email has been sent to your email',
               textAlign: TextAlign.center,
             ),
             SizedBox(
-              height: ScreenUtil().setHeight(100),
+              height: ScreenUtil().setHeight(20),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -87,7 +87,8 @@ class _VerifyEmailViewState extends State<VerifyEmailView> {
                       minimumSize:
                           MaterialStateProperty.all(const Size.fromHeight(30)),
                       backgroundColor: canResendEmail
-                          ? MaterialStateProperty.all(CustomColor.kPrimaryColor)
+                          ? MaterialStateProperty.all(
+                              CustomColor.kSecondaryColor)
                           : MaterialStateProperty.all(Colors.grey)),
                   onPressed: canResendEmail
                       ? () => context
@@ -104,7 +105,7 @@ class _VerifyEmailViewState extends State<VerifyEmailView> {
                   )),
             ),
             SizedBox(
-              height: ScreenUtil().setHeight(20),
+              height: ScreenUtil().setHeight(10),
             ),
             TextButton(
                 onPressed: () {
@@ -126,17 +127,17 @@ class _VerifyEmailViewState extends State<VerifyEmailView> {
             Icon(
               Icons.verified,
               color: Colors.blue,
-              size: 250.sp,
+              size: 120.sp,
             ),
             SizedBox(
-              height: ScreenUtil().setHeight(200),
+              height: ScreenUtil().setHeight(50),
             ),
             const Text(
               "Email is verified",
               textAlign: TextAlign.center,
             ),
             SizedBox(
-              height: ScreenUtil().setHeight(200),
+              height: ScreenUtil().setHeight(20),
             ),
             TextButton(
                 onPressed: () async {

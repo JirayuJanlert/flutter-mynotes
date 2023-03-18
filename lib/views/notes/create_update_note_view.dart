@@ -95,49 +95,51 @@ class _CreateUpdateNoteViewState extends State<CreateUpdateNoteView> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: Text(appBarTitle),
-          actions: [
-            IconButton(
-                onPressed: () async {
-                  final text = _textController.text;
-                  if (_note == null || text.isEmpty) {
-                    await showCannotShareEmptyNoteDialog(context);
-                  } else {
-                    Share.share(text);
-                  }
-                },
-                icon: const Icon(Icons.ios_share))
-          ],
-        ),
-        body: FutureBuilder(
-            future: createOrGetExistingNote(context),
-            builder: (context, snapshot) {
-              switch (snapshot.connectionState) {
-                case ConnectionState.done:
-                  return Container(
-                    height: MediaQuery.of(context).size.height,
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                    child: TextField(
-                      controller: _textController,
-                      keyboardType: TextInputType.multiline,
-                      maxLines: null,
-                      textCapitalization: TextCapitalization.sentences,
-                      decoration: const InputDecoration(
-                        border: InputBorder.none,
-                        hintText: 'Start Typing your note...',
+    return SafeArea(
+      child: Scaffold(
+          appBar: AppBar(
+            title: Text(appBarTitle),
+            actions: [
+              IconButton(
+                  onPressed: () async {
+                    final text = _textController.text;
+                    if (_note == null || text.isEmpty) {
+                      await showCannotShareEmptyNoteDialog(context);
+                    } else {
+                      Share.share(text);
+                    }
+                  },
+                  icon: const Icon(Icons.ios_share))
+            ],
+          ),
+          body: FutureBuilder(
+              future: createOrGetExistingNote(context),
+              builder: (context, snapshot) {
+                switch (snapshot.connectionState) {
+                  case ConnectionState.done:
+                    return Container(
+                      height: MediaQuery.of(context).size.height,
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 12, vertical: 8),
+                      child: TextField(
+                        controller: _textController,
+                        keyboardType: TextInputType.multiline,
+                        maxLines: null,
+                        textCapitalization: TextCapitalization.sentences,
+                        decoration: const InputDecoration(
+                          border: InputBorder.none,
+                          hintText: 'Start Typing your note...',
+                        ),
+                        style: const TextStyle(
+                          fontSize: 19,
+                          height: 1.5,
+                        ),
                       ),
-                      style: const TextStyle(
-                        fontSize: 19,
-                        height: 1.5,
-                      ),
-                    ),
-                  );
-                default:
-                  return customLoadingIndicator();
-              }
-            }));
+                    );
+                  default:
+                    return customLoadingIndicator();
+                }
+              })),
+    );
   }
 }

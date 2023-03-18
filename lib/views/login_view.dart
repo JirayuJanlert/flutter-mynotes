@@ -6,7 +6,6 @@ import 'package:flutter_course/services/auth/bloc/auth_bloc.dart';
 import 'package:flutter_course/services/auth/bloc/auth_event.dart';
 import 'package:flutter_course/services/auth/bloc/auth_state.dart';
 import 'package:flutter_course/utilities/dialog/error_dialog.dart';
-import 'package:flutter_course/utilities/dialog/loading_dialog.dart';
 import 'package:flutter_course/widgets/horrizontal_line.dart';
 import 'package:flutter_course/widgets/radio_button.dart';
 import 'package:flutter_course/widgets/social_icon.dart';
@@ -50,21 +49,27 @@ class _LoginViewState extends State<LoginView> {
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) async {
         if (state is AuthStateLoggedOut) {
-          if (!state.isLoading) {
-          } else if (state.isLoading) {}
           if (state.exception is UserNotFoundAuthException) {
-            await showErrorDialog(context, 'User Not found');
+            await showErrorDialog(
+              context,
+              'Cannot find a user with the entered credentials',
+            );
           } else if (state.exception is WrongPasswordAuthException) {
-            await showErrorDialog(context, 'Invalid Password');
+            await showErrorDialog(
+              context,
+              'Wrong credentials',
+            );
           } else if (state.exception is GenericAuthException) {
-            await showErrorDialog(context, 'Authentication Error');
+            await showErrorDialog(
+              context,
+              'Authentication Error',
+            );
           }
         }
       },
-      child: Scaffold(
-        resizeToAvoidBottomInset: true,
-        body: SafeArea(
-          child: Stack(fit: StackFit.expand, children: <Widget>[
+      child: SafeArea(
+        child: Scaffold(
+          body: Stack(fit: StackFit.expand, children: <Widget>[
             Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -88,13 +93,13 @@ class _LoginViewState extends State<LoginView> {
                         Text('LOGO',
                             style: TextStyle(
                                 fontFamily: "Poppins-Bold",
-                                fontSize: 32,
+                                fontSize: 25,
                                 color: theme.textTheme.headlineLarge?.color,
                                 fontWeight: FontWeight.bold))
                       ],
                     ),
                   ),
-                  const SizedBox(height: 80),
+                  SizedBox(height: 50.h),
                   Padding(
                     padding: const EdgeInsets.only(left: 20.0, right: 20),
                     child: Card(
@@ -107,8 +112,9 @@ class _LoginViewState extends State<LoginView> {
                       child: Container(
                           padding: const EdgeInsets.all(20),
                           width: double.infinity,
-                          height: ScreenUtil().setHeight(980),
+                          height: ScreenUtil().setHeight(400),
                           child: Column(
+                            mainAxisSize: MainAxisSize.min,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
@@ -136,7 +142,7 @@ class _LoginViewState extends State<LoginView> {
                                             theme.hintColor), //hint text style
                                   )),
                               const SizedBox(
-                                height: 20,
+                                height: 10,
                               ),
                               Text(
                                 'Password',
@@ -155,16 +161,21 @@ class _LoginViewState extends State<LoginView> {
                                             theme.hintColor), //hint text style
                                   )),
                               const SizedBox(
-                                height: 20,
+                                height: 10,
                               ),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: <Widget>[
-                                  Text(
-                                    "Forgot Password?",
-                                    style: TextStyle(
-                                        color: theme.colorScheme.secondary,
-                                        fontSize: 20),
+                                  TextButton(
+                                    onPressed: () => context
+                                        .read<AuthBloc>()
+                                        .add(const AuthEventForgotPassword()),
+                                    child: Text(
+                                      "Forgot Password?",
+                                      style: TextStyle(
+                                          color: theme.colorScheme.secondary,
+                                          fontSize: 15),
+                                    ),
                                   )
                                 ],
                               )
@@ -172,7 +183,7 @@ class _LoginViewState extends State<LoginView> {
                           )),
                     ),
                   ),
-                  const SizedBox(height: 30),
+                  const SizedBox(height: 20),
                   Row(
                     mainAxisSize: MainAxisSize.max,
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -195,8 +206,8 @@ class _LoginViewState extends State<LoginView> {
                         ],
                       ),
                       Container(
-                        width: 150,
-                        height: 80,
+                        width: 150.w,
+                        height: 70.h,
                         decoration: BoxDecoration(
                             gradient: const LinearGradient(colors: [
                               CustomColor.kPrimaryColor,

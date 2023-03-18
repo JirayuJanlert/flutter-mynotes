@@ -56,9 +56,9 @@ class _RegisterViewState extends State<RegisterView> {
           }
         }
       },
-      child: Scaffold(
-        body: SafeArea(
-          child: LayoutBuilder(builder: (context, constraint) {
+      child: SafeArea(
+        child: Scaffold(
+          body: LayoutBuilder(builder: (context, constraint) {
             return SingleChildScrollView(
               scrollDirection: Axis.vertical,
               physics: const ScrollPhysics(),
@@ -81,7 +81,7 @@ class _RegisterViewState extends State<RegisterView> {
                             style: theme.textTheme.titleLarge,
                           ),
                           SizedBox(
-                            height: ScreenUtil().setHeight(100),
+                            height: ScreenUtil().setHeight(20),
                           ),
                           Padding(
                             padding: const EdgeInsets.all(8.0),
@@ -94,6 +94,7 @@ class _RegisterViewState extends State<RegisterView> {
                               },
                               keyboardType: TextInputType.emailAddress,
                               autocorrect: false,
+                              autofocus: true,
                               enableSuggestions: false,
                               controller: _email,
                               decoration: InputDecoration(
@@ -196,7 +197,7 @@ class _RegisterViewState extends State<RegisterView> {
                             ),
                           ),
                           SizedBox(
-                            height: ScreenUtil().setHeight(100),
+                            height: ScreenUtil().setHeight(20),
                           ),
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
@@ -230,14 +231,14 @@ class _RegisterViewState extends State<RegisterView> {
                                 child: Container(
                                     alignment: Alignment.center,
                                     width: 0.8.sw,
-                                    height: ScreenUtil().setHeight(150),
+                                    height: ScreenUtil().setHeight(50),
                                     child: const Text(
                                       'Register',
                                       style: TextStyle(fontSize: 25),
                                     ))),
                           ),
                           SizedBox(
-                            height: ScreenUtil().setHeight(100),
+                            height: ScreenUtil().setHeight(20),
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,

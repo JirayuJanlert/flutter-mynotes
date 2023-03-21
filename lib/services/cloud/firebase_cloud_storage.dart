@@ -18,10 +18,13 @@ class FirebaseCloudStorage {
   ///
   /// Args:
   ///   ownerUserId (String): The user ID of the user who owns the notes.
-  Stream<Iterable<CloudNote>> allNotes({required String ownerUserId}) =>
-      notes.snapshots().map((event) => event.docs
-          .map((doc) => CloudNote.fromSnapshot(doc))
-          .where((note) => note.ownerUserId == ownerUserId));
+  Stream<Iterable<CloudNote>> allNotes({required String ownerUserId}) {
+    final allNotes = notes
+        .where(ownerUserIdfieldName, isEqualTo: ownerUserId)
+        .snapshots()
+        .map((event) => event.docs.map((doc) => CloudNote.fromSnapshot(doc)));
+    return allNotes;
+  }
 
   /// It creates a new note.
   ///
@@ -38,23 +41,6 @@ class FirebaseCloudStorage {
       ownerUserId: ownerUserId,
       text: '',
     );
-  }
-
-  /// Get all the notes for a given user.
-  ///
-  /// Args:
-  ///   ownerUserId (String): The user ID of the user who owns the notes.
-  Future<Iterable<CloudNote>> getNotes({required String ownerUserId}) async {
-    try {
-      return await notes
-          .where(ownerUserIdfieldName, isEqualTo: ownerUserId)
-          .get()
-          .then(
-            (value) => value.docs.map((doc) => CloudNote.fromSnapshot(doc)),
-          );
-    } catch (_) {
-      throw CouldNotGetAllNotesException();
-    }
   }
 
   /// It takes a documentId and a text, and updates the document with the given documentId with the

@@ -51,7 +51,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyBS_Fokjoki9yaWdcDW8u_C1_c6f8uSgoA',
-    appId: '1:169198217513:android:e7a148bb8d696b82f6af38',
+    appId: '1:169198217513:android:abc3c3871480d700f6af38',
     messagingSenderId: '169198217513',
     projectId: 'mynotes-flutter-agonist',
     storageBucket: 'mynotes-flutter-agonist.appspot.com',
@@ -59,11 +59,12 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyBmTbWMYfOGOKzZnrHJTTapxPQJ0cUxJUA',
-    appId: '1:169198217513:ios:31927747d463c057f6af38',
+    appId: '1:169198217513:ios:4e921ffedffe4ea3f6af38',
     messagingSenderId: '169198217513',
     projectId: 'mynotes-flutter-agonist',
     storageBucket: 'mynotes-flutter-agonist.appspot.com',
-    iosClientId: '169198217513-l07tq6s8fcier33mle3idj5jlfbk6gtg.apps.googleusercontent.com',
+    iosClientId:
+        '169198217513-l07tq6s8fcier33mle3idj5jlfbk6gtg.apps.googleusercontent.com',
     iosBundleId: 'com.jirayu.flutterCourse',
   );
 }

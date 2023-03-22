@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_course/constant/custom.dart';
+import 'package:flutter_course/extensions/buildcontext/loc.dart';
 import 'package:flutter_course/services/auth/bloc/auth_bloc.dart';
 import 'package:flutter_course/views/login_view.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -26,7 +27,7 @@ class WelcomeScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  'Welcome to myNote',
+                  context.loc.welcome_screen_prompt,
                   style: theme.textTheme.headlineMedium,
                 ),
                 SizedBox(height: ScreenUtil().setHeight(20)),
@@ -66,7 +67,7 @@ class WelcomeScreen extends StatelessWidget {
                                 ),
                               );
                             },
-                            child: const Text('LOGIN')),
+                            child: Text(context.loc.login_capital)),
                         const SizedBox(height: 16),
                         ElevatedButton(
                             style: ElevatedButton.styleFrom(
@@ -80,7 +81,7 @@ class WelcomeScreen extends StatelessWidget {
                             ),
                             onPressed: () {},
                             child: Text(
-                              'SIGNUP',
+                              context.loc.signup_capital,
                               style: theme.textTheme.labelLarge,
                             )),
                       ]),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_course/extensions/buildcontext/loc.dart';
 import 'package:flutter_course/services/auth/auth_exception.dart';
 import 'package:flutter_course/constant/custom.dart';
 import 'package:flutter_course/services/auth/bloc/auth_bloc.dart';
@@ -52,17 +53,17 @@ class _LoginViewState extends State<LoginView> {
           if (state.exception is UserNotFoundAuthException) {
             await showErrorDialog(
               context,
-              'Cannot find a user with the entered credentials',
+              context.loc.login_error_cannot_find_user,
             );
           } else if (state.exception is WrongPasswordAuthException) {
             await showErrorDialog(
               context,
-              'Wrong credentials',
+              context.loc.login_error_wrong_credentials,
             );
           } else if (state.exception is GenericAuthException) {
             await showErrorDialog(
               context,
-              'Authentication Error',
+              context.loc.login_error_auth_error,
             );
           }
         }
@@ -76,7 +77,9 @@ class _LoginViewState extends State<LoginView> {
                 Container(
                     padding: const EdgeInsets.only(top: 10),
                     alignment: Alignment.topRight,
-                    child: Image.asset('assets/image_01.png')),
+                    child: Image.asset(
+                      'assets/image_01.png',
+                    )),
                 Expanded(child: Container()),
                 Image.asset('assets/image_02.png')
               ],
@@ -88,12 +91,20 @@ class _LoginViewState extends State<LoginView> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Image.asset('assets/logo.png'),
-                        Text('LOGO',
+                        Image.asset(
+                          'assets/logo.png',
+                          height: 60.h,
+                          width: 40.w,
+                        ),
+                        SizedBox(
+                          width: 10.w,
+                        ),
+                        Text('NOTESY',
                             style: TextStyle(
                                 fontFamily: "Poppins-Bold",
-                                fontSize: 25,
+                                fontSize: 30.sp,
                                 color: theme.textTheme.headlineLarge?.color,
                                 fontWeight: FontWeight.bold))
                       ],
@@ -101,7 +112,7 @@ class _LoginViewState extends State<LoginView> {
                   ),
                   SizedBox(height: 50.h),
                   Padding(
-                    padding: const EdgeInsets.only(left: 20.0, right: 20),
+                    padding: EdgeInsets.only(left: 20.w, right: 20.w),
                     child: Card(
                       borderOnForeground: true,
                       color: theme.cardColor,
@@ -119,21 +130,21 @@ class _LoginViewState extends State<LoginView> {
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
                               Text(
-                                'Login',
+                                context.loc.login,
                                 style: theme.textTheme.headlineMedium,
                               ),
                               SizedBox(
                                 height: ScreenUtil().setHeight(20),
                               ),
                               Text(
-                                'Email',
+                                context.loc.email_text_field_label,
                                 style: theme.textTheme.labelLarge,
                               ),
                               TextField(
                                   controller: _username,
                                   decoration: InputDecoration(
-                                    hintText: "Enter your email",
-                                    labelText: 'Email',
+                                    hintText: context
+                                        .loc.email_text_field_placeholder,
                                     labelStyle: theme.textTheme.labelLarge,
                                     prefixIcon: const Icon(Icons.people),
                                     hintStyle: TextStyle(
@@ -145,14 +156,16 @@ class _LoginViewState extends State<LoginView> {
                                 height: 10,
                               ),
                               Text(
-                                'Password',
+                                // context.loc.password_textfield_label,
+                                context.loc.password_text_field_label,
                                 style: theme.textTheme.labelLarge,
                               ),
                               TextField(
                                   obscureText: true,
                                   controller: _password,
                                   decoration: InputDecoration(
-                                    hintText: "Enter your email",
+                                    hintText: context
+                                        .loc.password_text_field_placeholder,
                                     labelStyle: theme.textTheme.labelLarge,
                                     prefixIcon: const Icon(Icons.password),
                                     hintStyle: TextStyle(
@@ -171,7 +184,7 @@ class _LoginViewState extends State<LoginView> {
                                         .read<AuthBloc>()
                                         .add(const AuthEventForgotPassword()),
                                     child: Text(
-                                      "Forgot Password?",
+                                      context.loc.login_view_forgot_password,
                                       style: TextStyle(
                                           color: theme.colorScheme.secondary,
                                           fontSize: 15),
@@ -200,7 +213,7 @@ class _LoginViewState extends State<LoginView> {
                             width: 20,
                           ),
                           Text(
-                            'Remember me',
+                            context.loc.login_view_remember_me,
                             style: theme.textTheme.bodyLarge,
                           )
                         ],
@@ -231,9 +244,9 @@ class _LoginViewState extends State<LoginView> {
                                     .read<AuthBloc>()
                                     .add(AuthEventLogIn(email, password));
                               },
-                              child: const Center(
-                                child: Text("SIGNIN",
-                                    style: TextStyle(
+                              child: Center(
+                                child: Text(context.loc.login,
+                                    style: const TextStyle(
                                       color: Colors.white,
                                       fontFamily: "Poppins-Bold",
                                       fontSize: 18,
@@ -252,7 +265,7 @@ class _LoginViewState extends State<LoginView> {
                     children: [
                       horizontalLine(),
                       Text(
-                        'Social Login',
+                        context.loc.login_view_social_login,
                         style: theme.textTheme.titleLarge,
                       ),
                       horizontalLine(),
@@ -306,9 +319,9 @@ class _LoginViewState extends State<LoginView> {
                     mainAxisSize: MainAxisSize.min,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      const Text(
-                        "New User? ",
-                        style: TextStyle(fontFamily: "Poppins-Medium"),
+                      Text(
+                        context.loc.login_view_new_user,
+                        style: const TextStyle(fontFamily: "Poppins-Medium"),
                       ),
                       const SizedBox(
                         height: 20,
@@ -319,8 +332,8 @@ class _LoginViewState extends State<LoginView> {
                               .read<AuthBloc>()
                               .add(const AuthEventShouldRegister());
                         },
-                        child: const Text("SignUp",
-                            style: TextStyle(
+                        child: Text(context.loc.login_view_sign_up,
+                            style: const TextStyle(
                               color: Color(0xFF5d74e3),
                               fontFamily: "Poppins-Bold",
                             )),

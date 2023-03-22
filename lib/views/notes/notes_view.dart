@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart' show ReadContext;
 import 'package:flutter_course/constant/routes.dart';
 import 'package:flutter_course/enums/menu_action.dart';
+import 'package:flutter_course/extensions/buildcontext/loc.dart';
 import 'package:flutter_course/services/auth/auth_service.dart';
 import 'package:flutter_course/services/auth/bloc/auth_bloc.dart';
 import 'package:flutter_course/services/auth/bloc/auth_event.dart';
@@ -10,6 +11,10 @@ import 'package:flutter_course/services/cloud/firebase_cloud_storage.dart';
 import 'package:flutter_course/utilities/dialog/logout_dialog.dart';
 import 'package:flutter_course/views/notes/notes_list_view.dart';
 import 'package:flutter_course/widgets/loading_indicator.dart';
+
+extension Count<T extends Iterable> on Stream<T> {
+  Stream<int> get getLength => map((event) => event.length);
+}
 
 class NotesView extends StatefulWidget {
   const NotesView({super.key});
@@ -35,7 +40,16 @@ class _NotesViewState extends State<NotesView> {
     return SafeArea(
       child: Scaffold(
           appBar: AppBar(
-            title: const Text('Your Notes'),
+            title: StreamBuilder(
+                stream: _notesService.allNotes(ownerUserId: userId).getLength,
+                builder: (context, AsyncSnapshot<int> snapshot) {
+                  if (snapshot.hasData) {
+                    final noteCount = snapshot.data ?? 0;
+                    return Text(context.loc.notes_title(noteCount));
+                  } else {
+                    return const Text('');
+                  }
+                }),
             actions: [
               IconButton(
                   onPressed: () {
@@ -65,13 +79,13 @@ class _NotesViewState extends State<NotesView> {
                   }
                 },
                 itemBuilder: (context) {
-                  return const [
+                  return [
                     PopupMenuItem(
-                        value: MenuAction.logout,
-                        child: ListTile(
-                          leading: Icon(Icons.exit_to_app),
-                          title: Text('Signout'),
-                        ))
+                      value: MenuAction.logout,
+                      child: ListTile(
+                          leading: const Icon(Icons.exit_to_app),
+                          title: Text(context.loc.logout_button)),
+                    )
                   ];
                 },
               ),
@@ -97,7 +111,7 @@ class _NotesViewState extends State<NotesView> {
                         },
                       );
                     } else {
-                      return const Text('No notes');
+                      return Text(context.loc.note_view_no_notes);
                     }
                   default:
                     return customLoadingIndicator();

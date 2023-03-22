@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_course/constant/custom.dart';
+import 'package:flutter_course/extensions/buildcontext/loc.dart';
 import 'package:flutter_course/services/auth/auth_exception.dart';
 import 'package:flutter_course/services/auth/auth_service.dart';
 import 'package:flutter_course/services/auth/bloc/auth_bloc.dart';
@@ -46,13 +47,16 @@ class _RegisterViewState extends State<RegisterView> {
       listener: (context, state) async {
         if (state is AuthStateRegistering) {
           if (state.exception is WeakPasswordAuthException) {
-            await showErrorDialog(context, 'Weak password');
+            await showErrorDialog(
+                context, context.loc.register_error_weak_password);
           } else if (state.exception is EmailAlreadyInUseAuthException) {
-            await showErrorDialog(context, 'Email is already used');
+            await showErrorDialog(
+                context, context.loc.register_error_email_already_in_use);
           } else if (state.exception is InvalidEmailAuthException) {
-            await showErrorDialog(context, 'Invalid Email');
+            await showErrorDialog(
+                context, context.loc.register_error_invalid_email);
           } else if (state.exception is GenericAuthException) {
-            await showErrorDialog(context, 'Authentication Error');
+            await showErrorDialog(context, context.loc.register_error_generic);
           }
         }
       },
@@ -75,9 +79,10 @@ class _RegisterViewState extends State<RegisterView> {
                         mainAxisSize: MainAxisSize.max,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Text('Sign Up', style: theme.textTheme.headlineLarge),
+                          Text(context.loc.register_view_signup,
+                              style: theme.textTheme.headlineLarge),
                           Text(
-                            'Create Your account for free',
+                            context.loc.register_view_prompt,
                             style: theme.textTheme.titleLarge,
                           ),
                           SizedBox(
@@ -88,7 +93,8 @@ class _RegisterViewState extends State<RegisterView> {
                             child: TextFormField(
                               validator: (value) {
                                 if (value?.isEmpty ?? true) {
-                                  return 'Please enter value';
+                                  return context.loc
+                                      .textfield_validation_error_value_emty;
                                 }
                                 return null;
                               },
@@ -115,8 +121,9 @@ class _RegisterViewState extends State<RegisterView> {
                                         width: 3,
                                         color: theme.colorScheme.error),
                                   ),
-                                  hintText: 'Enter your email here',
-                                  labelText: 'Email',
+                                  hintText:
+                                      context.loc.email_text_field_placeholder,
+                                  labelText: context.loc.email_text_field_label,
                                   prefixIcon: const Icon(
                                     Icons.account_circle,
                                   )),
@@ -127,7 +134,8 @@ class _RegisterViewState extends State<RegisterView> {
                             child: TextFormField(
                               validator: (value) {
                                 if (value?.isEmpty ?? true) {
-                                  return 'Please enter value';
+                                  return context.loc
+                                      .textfield_validation_error_value_emty;
                                 }
                                 return null;
                               },
@@ -153,8 +161,10 @@ class _RegisterViewState extends State<RegisterView> {
                                         width: 3,
                                         color: theme.primaryColorLight),
                                   ),
-                                  hintText: 'Enter your password here',
-                                  labelText: 'Password',
+                                  hintText: context
+                                      .loc.password_text_field_placeholder,
+                                  labelText:
+                                      context.loc.password_text_field_label,
                                   prefixIcon: const Icon(Icons.password)),
                             ),
                           ),
@@ -163,9 +173,11 @@ class _RegisterViewState extends State<RegisterView> {
                             child: TextFormField(
                               validator: (value) {
                                 if (value != _password.text) {
-                                  return 'The passwords do not matched';
+                                  return context.loc
+                                      .textfield_validation_error_password_unmatched;
                                 } else if (value?.isEmpty ?? true) {
-                                  return 'Please enter value';
+                                  return context.loc
+                                      .textfield_validation_error_value_emty;
                                 }
                                 return null;
                               },
@@ -191,8 +203,10 @@ class _RegisterViewState extends State<RegisterView> {
                                         width: 3,
                                         color: theme.primaryColorLight),
                                   ),
-                                  hintText: 'Enter your password again',
-                                  labelText: 'Confirm Password',
+                                  hintText: context.loc
+                                      .confirm_password_text_field_placeholder,
+                                  labelText: context.loc
+                                      .confirm_password_text_field_placeholder,
                                   prefixIcon: const Icon(Icons.check)),
                             ),
                           ),
@@ -232,9 +246,9 @@ class _RegisterViewState extends State<RegisterView> {
                                     alignment: Alignment.center,
                                     width: 0.8.sw,
                                     height: ScreenUtil().setHeight(50),
-                                    child: const Text(
-                                      'Register',
-                                      style: TextStyle(fontSize: 25),
+                                    child: Text(
+                                      context.loc.register,
+                                      style: const TextStyle(fontSize: 25),
                                     ))),
                           ),
                           SizedBox(
@@ -243,9 +257,10 @@ class _RegisterViewState extends State<RegisterView> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
-                              const Text(
-                                "Already Have an Account? ",
-                                style: TextStyle(fontFamily: "Poppins-Medium"),
+                              Text(
+                                context.loc.register_view_already_registered,
+                                style: const TextStyle(
+                                    fontFamily: "Poppins-Medium"),
                               ),
                               const SizedBox(
                                 height: 20,
@@ -256,8 +271,8 @@ class _RegisterViewState extends State<RegisterView> {
                                         const AuthEventLogOut(),
                                       );
                                 },
-                                child: const Text("Login",
-                                    style: TextStyle(
+                                child: Text(context.loc.login,
+                                    style: const TextStyle(
                                         color: Color(0xFF5d74e3),
                                         fontFamily: "Poppins-Bold")),
                               )

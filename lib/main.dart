@@ -6,10 +6,13 @@ import 'package:flutter_course/services/auth/bloc/auth_bloc.dart';
 import 'package:flutter_course/services/auth/firebase_auth_provider.dart';
 import 'package:flutter_course/views/home_page.dart';
 import 'package:flutter_course/views/notes/create_update_note_view.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(MaterialApp(
+    localizationsDelegates: AppLocalizations.localizationsDelegates,
+    supportedLocales: AppLocalizations.supportedLocales,
     debugShowCheckedModeBanner: false,
     title: 'Flutter Demo',
     theme: ThemeData(

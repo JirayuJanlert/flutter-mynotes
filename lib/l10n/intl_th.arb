@@ -1,0 +1,81 @@
+{
+     "logout_button": "ออกจากระบบ",
+     "note": "โน้ต",
+     "cancel": "ยกเลิก",
+     "yes": "yes",
+     "confirm": "ยืนยัน",
+     "delete": "ลบ",
+     "sharing": "แชร์",
+     "signup_capital": "ลงทะเบียน",
+     "login_capital": "เข้าสู่ระบบ",
+     "ok": "Ok",
+     "login": "เข้าสู่ระบบ",
+     "verify_email": "ยืนยันอีเมล",
+     "register": "ลงทะเบียน",
+     "restart": "รีสตาร์ท",
+     "back_to_login": "กลับสู่หน้าเข้าสู่ระบบ",
+
+     "welcome_screen_prompt": "ยินดีต้อนรับสู่ Notesy",
+
+     "start_typing_your_note": "เริ่มเขียนโน้ต",
+     "delete_note_prompt": "คุณแน่ใจหรือไม่ว่าต้องการลบโน้ตนี้",
+     "cannot_share_empty_note_prompt": "ไม่สามารถแชร์โน้ตที่ว่างเปล่า!",
+     "generic_error_prompt": "เกิดข้อผิดพลาด",
+     "logout_dialog_prompt": "คุณแน่ใจหรือไม่ว่าต้องการออกจากระบบ",
+
+     "password_reset": "รีเซ็ตรหัสผ่าน",
+     "password_reset_dialog_prompt": "เราได้ส่งลิงก์รีเซ็ตรหัสผ่านให้คุณแล้ว โปรดตรวจสอบอีเมลของคุณสำหรับข้อมูลเพิ่มเติม",
+
+     "login_error_cannot_find_user": "ไม่พบผู้ใช้ที่มีข้อมูลประจำตัวที่ป้อน!",
+     "login_error_wrong_credentials": "ข้อมูลประจำตัวไม่ถูกต้อง",
+     "login_error_auth_error": "ข้อผิดพลาดในการตรวจสอบสิทธิ์",
+
+     "login_view_forgot_password": "ฉันลืมรหัสผ่าน",
+     "login_view_not_registered_yet": "ยังไม่ได้ลงทะเบียนใช่ไหม ลงทะเบียนที่นี่!",
+     "login_view_remember_me": "จำฉัน",
+     "login_view_social_login": "หรือ",
+     "login_view_new_user": "ผู้ใช้ใหม่?",
+     "login_view_sign_up" : "สมัครสมาชิก",
+
+     "email_text_field_label": "อีเมล",
+     "email_text_field_placeholder": "ป้อนอีเมลของคุณที่นี่",
+     "password_text_field_label": "รหัสผ่าน",
+     "password_text_field_placeholder": "ป้อนรหัสผ่านของคุณที่นี่",
+     "confirm_password_text_field_label": "ยืนยันรหัสผ่าน",
+     "confirm_password_text_field_placeholder": "ป้อนรหัสผ่านของคุณอีกครั้ง",
+
+    
+     "forgot_password": "ลืมรหัสผ่าน",
+     "forgot_password_view_generic_error": "เราไม่สามารถดำเนินการตามคำขอของคุณได้ โปรดตรวจสอบว่าคุณเป็นผู้ใช้ที่ลงทะเบียนแล้ว หรือหากไม่ใช่ ให้ลงทะเบียนผู้ใช้ทันทีโดยย้อนกลับไปหนึ่งขั้นตอน",
+     "forgot_password_view_prompt": "หากคุณลืมรหัสผ่าน เพียงป้อนอีเมลของคุณ แล้วเราจะส่งลิงก์รีเซ็ตรหัสผ่านให้คุณ",
+     "forgot_password_view_send_me_link": "ส่งลิงก์รีเซ็ตรหัสผ่านให้ฉัน",
+    
+     "register_error_weak_password": "รหัสผ่านนี้ไม่ปลอดภัยเพียงพอ โปรดเลือกรหัสผ่านอื่น!",
+     "register_error_email_already_in_use": "อีเมลนี้ลงทะเบียนกับผู้ใช้รายอื่นแล้ว โปรดเลือกอีเมลอื่น!",
+     "register_error_generic": "ลงทะเบียนไม่สำเร็จ โปรดลองอีกครั้งในภายหลัง!",
+     "register_error_invalid_email": "ที่อยู่อีเมลที่คุณป้อนดูเหมือนจะไม่ถูกต้อง โปรดลองที่อยู่อีเมลอื่น!",
+     "register_view_prompt": "สร้างบัญชีของคุณได้ฟรี!",
+     "register_view_already_registered": "มีบัญชีอยู่แล้ว ",
+     "register_view_signup": "ลงทะเบียน",
+
+     "verify_email_view_prompt": "อีเมลยืนยันถูกส่งไปยังอีเมลของคุณ",
+     "verify_email_resend_email_verification": "ส่งการยืนยันอีเมลอีกครั้ง",
+     "verify_email_verification_success": "ยืนยันอีเมลแล้ว",
+
+     "textfield_validation_error_password_unmatched": "รหัสผ่านไม่ตรงกัน",
+     "textfield_validation_error_value_emty": "กรุณาป้อนข้อมูล",
+
+     "note_view_no_notes": "ไม่มีโน้ต",
+     "notes_title": "{count, plural, =0{ยังไม่มีโน้ต} =1{1 โน้ต} other{{count} โน้ต}}",
+     "@notes_title": {
+         "placeholder": {
+             "count": {
+                 "type": "int",
+                 "example": "3 โน้ต"
+             }
+         }
+     }
+
+}
+
+

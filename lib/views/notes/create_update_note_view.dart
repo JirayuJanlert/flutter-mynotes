@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_course/extensions/buildcontext/loc.dart';
 import 'package:flutter_course/services/auth/auth_service.dart';
 import 'package:flutter_course/services/cloud/cloud_note.dart';
 import 'package:flutter_course/utilities/dialog/cannot_share_empty_note_dialog.dart';
@@ -126,9 +127,9 @@ class _CreateUpdateNoteViewState extends State<CreateUpdateNoteView> {
                         keyboardType: TextInputType.multiline,
                         maxLines: null,
                         textCapitalization: TextCapitalization.sentences,
-                        decoration: const InputDecoration(
+                        decoration: InputDecoration(
                           border: InputBorder.none,
-                          hintText: 'Start Typing your note...',
+                          hintText: context.loc.start_typing_your_note,
                         ),
                         style: const TextStyle(
                           fontSize: 19,

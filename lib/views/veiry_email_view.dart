@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_course/constant/custom.dart';
+import 'package:flutter_course/extensions/buildcontext/loc.dart';
 import 'package:flutter_course/services/auth/auth_service.dart';
 import 'package:flutter_course/services/auth/bloc/auth_bloc.dart';
 import 'package:flutter_course/services/auth/bloc/auth_event.dart';
@@ -73,8 +74,8 @@ class _VerifyEmailViewState extends State<VerifyEmailView> {
             SizedBox(
               height: ScreenUtil().setHeight(50),
             ),
-            const Text(
-              'A verification email has been sent to your email',
+            Text(
+              context.loc.verify_email_view_prompt,
               textAlign: TextAlign.center,
             ),
             SizedBox(
@@ -99,9 +100,9 @@ class _VerifyEmailViewState extends State<VerifyEmailView> {
                     Icons.email,
                     color: Colors.white,
                   ),
-                  label: const Text(
-                    'Resend email verification',
-                    style: TextStyle(color: Colors.white),
+                  label: Text(
+                    context.loc.verify_email_resend_email_verification,
+                    style: const TextStyle(color: Colors.white),
                   )),
             ),
             SizedBox(
@@ -111,9 +112,9 @@ class _VerifyEmailViewState extends State<VerifyEmailView> {
                 onPressed: () {
                   context.read<AuthBloc>().add(const AuthEventLogOut());
                 },
-                child: const Text(
-                  'Cancel',
-                  style: TextStyle(
+                child: Text(
+                  context.loc.cancel,
+                  style: const TextStyle(
                     color: Colors.black54,
                   ),
                 )),
@@ -132,8 +133,8 @@ class _VerifyEmailViewState extends State<VerifyEmailView> {
             SizedBox(
               height: ScreenUtil().setHeight(50),
             ),
-            const Text(
-              "Email is verified",
+            Text(
+              context.loc.verify_email_verification_success,
               textAlign: TextAlign.center,
             ),
             SizedBox(
@@ -143,7 +144,7 @@ class _VerifyEmailViewState extends State<VerifyEmailView> {
                 onPressed: () async {
                   context.read<AuthBloc>().add(const AuthEventLogOut());
                 },
-                child: const Text('Go to Login')),
+                child: Text(context.loc.back_to_login)),
           ]),
         ),
       );

@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 class SocialIcon extends StatelessWidget {
@@ -24,7 +23,7 @@ class SocialIcon extends StatelessWidget {
             gradient: LinearGradient(colors: colors, tileMode: TileMode.clamp)),
         child: RawMaterialButton(
           shape: const CircleBorder(),
-          onPressed: () => onPressed,
+          onPressed: () => onPressed.call(),
           child: Icon(iconData, color: Colors.white),
         ),
       ),

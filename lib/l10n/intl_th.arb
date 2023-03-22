@@ -29,10 +29,11 @@
      "login_error_cannot_find_user": "ไม่พบผู้ใช้ที่มีข้อมูลประจำตัวที่ป้อน!",
      "login_error_wrong_credentials": "ข้อมูลประจำตัวไม่ถูกต้อง",
      "login_error_auth_error": "ข้อผิดพลาดในการตรวจสอบสิทธิ์",
+     "login_error_google_auth_error": "เข้าสู่ระบบด้วยกูเกิลผิดพลาด",
 
      "login_view_forgot_password": "ฉันลืมรหัสผ่าน",
      "login_view_not_registered_yet": "ยังไม่ได้ลงทะเบียนใช่ไหม ลงทะเบียนที่นี่!",
-     "login_view_remember_me": "จำฉัน",
+     "login_view_remember_me": "จดจำฉัน",
      "login_view_social_login": "หรือ",
      "login_view_new_user": "ผู้ใช้ใหม่?",
      "login_view_sign_up" : "สมัครสมาชิก",

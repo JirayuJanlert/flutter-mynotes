@@ -21,3 +21,10 @@ class InvalidEmailAuthException implements Exception {}
 class GenericAuthException implements Exception {}
 
 class UserNotLoggedInAuthException implements Exception {}
+
+// google sign in exception
+class GoogleSignInAuthException implements Exception {}
+
+class InvalidCredentialAuthException implements Exception {}
+
+class UserExistWithDifferentCredentialAuthException implements Exception {}

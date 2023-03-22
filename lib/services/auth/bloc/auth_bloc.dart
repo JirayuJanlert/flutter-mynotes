@@ -15,6 +15,32 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<AuthEventRegister>(_onRegister);
     on<AuthEventShouldRegister>(_onShouldRegister);
     on<AuthEventForgotPassword>(_onForgotPassword);
+    on<AuthEventLogInWithGoogle>(_onLoginWithGoogle);
+  }
+
+  Future<void> _onLoginWithGoogle(
+      AuthEventLogInWithGoogle event, Emitter<AuthState> emit) async {
+    emit(const AuthStateLoggedOut(
+      exception: null,
+      isLoading: true,
+      loadingText: 'Please wait while I log you in',
+    ));
+    try {
+      final user = await _provider.signInWithGoogle();
+      emit(const AuthStateLoggedOut(
+        exception: null,
+        isLoading: false,
+      ));
+      emit(AuthStateLoggedIn(
+        user: user,
+        isLoading: false,
+      ));
+    } on Exception catch (e) {
+      emit(AuthStateLoggedOut(
+        exception: e,
+        isLoading: false,
+      ));
+    }
   }
 
   Future<void> _onInitialize(

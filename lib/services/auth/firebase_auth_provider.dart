@@ -1,10 +1,12 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_course/firebase_options.dart';
 import 'package:flutter_course/services/auth/auth_provider.dart';
 import 'package:flutter_course/services/auth/auth_exception.dart';
 import 'package:flutter_course/services/auth/auth_user.dart';
 import 'package:firebase_auth/firebase_auth.dart'
-    show FirebaseAuth, FirebaseAuthException;
+    show FirebaseAuth, FirebaseAuthException, GoogleAuthProvider;
+import 'package:google_sign_in/google_sign_in.dart';
 
 class FirebaseAuthProvider implements AuthProvider {
   @override
@@ -59,6 +61,10 @@ class FirebaseAuthProvider implements AuthProvider {
   Future<void> logOut() async {
     final user = FirebaseAuth.instance.currentUser;
     if (user != null) {
+      bool isGoogleSignedIn = await GoogleSignIn().isSignedIn();
+      if (isGoogleSignedIn) {
+        await GoogleSignIn().signOut();
+      }
       FirebaseAuth.instance.signOut();
     } else {
       throw UserNotLoggedInAuthException();
@@ -129,6 +135,49 @@ class FirebaseAuthProvider implements AuthProvider {
       }
     } catch (_) {
       throw GenericAuthException();
+    }
+  }
+
+  @override
+  Future<AuthUser> signInWithGoogle() async {
+    try {
+      final GoogleSignInAccount? googleUser = await GoogleSignIn(
+        scopes: [
+          'https://www.googleapis.com/auth/contacts.readonly',
+        ],
+      ).signIn();
+
+      if (googleUser != null) {
+        final GoogleSignInAuthentication googleAuth =
+            await googleUser.authentication;
+        final credential = GoogleAuthProvider.credential(
+          accessToken: googleAuth.accessToken,
+          idToken: googleAuth.idToken,
+        );
+        await FirebaseAuth.instance.signInWithCredential(credential);
+
+        final user = currentUser;
+
+        if (user != null) {
+          return user;
+        } else {
+          throw GenericAuthException();
+        }
+      } else {
+        throw GoogleSignInAuthException();
+      }
+    } on PlatformException catch (_) {
+      throw GenericAuthException();
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'account-exists-with-different-credential') {
+        throw UserExistWithDifferentCredentialAuthException();
+      } else if (e.code == 'invalid-credential') {
+        throw InvalidCredentialAuthException();
+      } else {
+        throw GenericAuthException();
+      }
+    } catch (_) {
+      throw GoogleSignInAuthException();
     }
   }
 }

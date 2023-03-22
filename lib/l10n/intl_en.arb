@@ -29,6 +29,7 @@
     "login_error_cannot_find_user": "Cannot find a user with the entered credentials!",
     "login_error_wrong_credentials": "Wrong credentials",
     "login_error_auth_error": "Authentication error",
+    "login_error_google_auth_error": "Google Login Error",
 
     "login_view_forgot_password": "I forgot my password",
     "login_view_not_registered_yet": "Not registered yet? Register here!",

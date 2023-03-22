@@ -163,4 +163,9 @@ class MockAuthProvider implements AuthProvider {
   Future<void> sendPasswordReset({required String email}) {
     throw UnimplementedError();
   }
+
+  @override
+  Future<AuthUser> signInWithGoogle() {
+    throw UnimplementedError();
+  }
 }

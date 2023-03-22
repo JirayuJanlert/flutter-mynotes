@@ -1,5 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.jirayu.flutter_course">
+     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
    <application
         android:label="MyNote"
         android:name="${applicationName}"

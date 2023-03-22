@@ -50,21 +50,33 @@ class _LoginViewState extends State<LoginView> {
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) async {
         if (state is AuthStateLoggedOut) {
-          if (state.exception is UserNotFoundAuthException) {
-            await showErrorDialog(
-              context,
-              context.loc.login_error_cannot_find_user,
-            );
-          } else if (state.exception is WrongPasswordAuthException) {
-            await showErrorDialog(
-              context,
-              context.loc.login_error_wrong_credentials,
-            );
-          } else if (state.exception is GenericAuthException) {
-            await showErrorDialog(
-              context,
-              context.loc.login_error_auth_error,
-            );
+          if (state.exception != null) {
+            if (state.exception is UserNotFoundAuthException) {
+              await showErrorDialog(
+                context,
+                context.loc.login_error_cannot_find_user,
+              );
+            } else if (state.exception is WrongPasswordAuthException) {
+              await showErrorDialog(
+                context,
+                context.loc.login_error_wrong_credentials,
+              );
+            } else if (state.exception is GenericAuthException) {
+              await showErrorDialog(
+                context,
+                context.loc.login_error_auth_error,
+              );
+            } else if (state.exception is GoogleSignInAuthException) {
+              await showErrorDialog(
+                context,
+                context.loc.login_error_google_auth_error,
+              );
+            } else {
+              await showErrorDialog(
+                context,
+                context.loc.login_error_auth_error,
+              );
+            }
           }
         }
       },
@@ -292,7 +304,11 @@ class _LoginViewState extends State<LoginView> {
                           Color(0xFFff355d),
                         ],
                         iconData: CustomIcons.googlePlus,
-                        onPressed: () {},
+                        onPressed: () async {
+                          context
+                              .read<AuthBloc>()
+                              .add(const AuthEventLogInWithGoogle());
+                        },
                       ),
                       SocialIcon(
                         colors: const [
